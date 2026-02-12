@@ -1,0 +1,20 @@
+# Ignore LaTeX build files in latex-report/
+latex-report/*.aux
+latex-report/*.fdb_latexmk
+latex-report/*.fls
+latex-report/*.log
+latex-report/*.out
+latex-report/*.toc
+latex-report/*.synctex.gz
+latex-report/*.bbl
+latex-report/*.blg
+latex-report/*.lof
+latex-report/*.lot
+latex-report/*.gz
+__pycache__/
+*.pyc
+# Ignore compiled C/C++ binaries
+hecs-el2450-lab3/CFiles/main
+
+# Ignore VS Code workspace settings
+.vscode/
