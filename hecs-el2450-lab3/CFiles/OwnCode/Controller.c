@@ -12,16 +12,21 @@
 
     The purpose of the algorithm is first to rotate and then to move straight.
 */
+clock_gettime(CLOCK_MONOTONIC, &timer);
+current_controller_time = (double)timer.tv_sec + (double)timer.tv_nsec/1000000000;
+if (last_controller_time > 0) {
+    H = current_controller_time - last_controller_time;
+}
+last_controller_time = current_controller_time;
+printf("The sampling time H is %f seconds.\n", H);
 // Uncomment to do only a rotation control.
-// Task 6. Implement a controller that stabilize theta in theta_R.
-//  We can derive the new angular speed
+// Implement a controller that stabilize theta in theta_R.
+// We can derive the new angular speed
 omega = K_PSI_1*(theta_R-theta);
 // Convert angular speed to  left and right, given that v = 0.
-left = -omega/2;
-right = omega/2;
+left_0 = -omega/2;
+right_0 = omega/2;
 
-// Uncomment to do only a pose control.
-// Task 7. Maintain the robot in the current position while rotating.
 // calculate the velocity vector
 v_c[0] = cos(theta*(M_PI/180.0)); // Desired velocity in the x direction in m/s.
 v_c[1] = sin(theta*(M_PI/180.0)); // Desired velocity in the y direction in m/s.
@@ -32,5 +37,15 @@ delta_0[1] = (y0-y) / 100.0; // Position error in the y direction in m.
 d_0 = v_c[0]*delta_0[0] + v_c[1]*delta_0[1];
 // Calculate the desired translational velocity
 v = K_OMEGA_1*d_0; // [m/s]
-left = v*100; // We dont know the units of left and right, but assume cm/s.
-right = v*100;
+left_1 = v*100; // [cm/s] We dont know the units of left and right, but assume cm/s.
+right_1 = v*100;
+
+// Task 6. Rotation control only.
+left = left_0;
+right = right_0;
+// Task 8. Translation control only.
+left = left_1;
+right = right_1;
+// Task 9. Combine the controllers.
+left = left_0 + left_1;
+right = right_0 + right_1;
