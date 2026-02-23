@@ -16,5 +16,6 @@ __pycache__/
 # Ignore compiled C/C++ binaries
 hecs-el2450-lab3/CFiles/main
 
+*.csv
 # Ignore VS Code workspace settings
 .vscode/
