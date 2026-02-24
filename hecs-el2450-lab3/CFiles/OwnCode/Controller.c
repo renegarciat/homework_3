@@ -16,8 +16,12 @@
 // Implement a controller that stabilize theta in theta_R.
 // We can derive the new angular speed
 // Derive theta_R
-theta_R = atan2(yg-y, xg-x)*180/M_PI; // Desired orientation of the robot in degrees. atan2 returns values in the range [-180, 180].
-omega = K_PSI_1*(theta_R-theta);
+theta_R = atan2(yg, xg)*180/M_PI; // Desired orientation of the robot in degrees.
+// Calculate angle error with wrapping to [-180, 180]
+angle_error = theta_R - theta;
+if (angle_error > 180) angle_error -= 360;
+else if (angle_error < -180) angle_error += 360;
+omega = K_PSI_1 * angle_error;
 // Convert angular speed to  left and right, given that v = 0.
 left_0 = -omega/2.0;
 right_0 = omega/2.0;
@@ -31,9 +35,10 @@ delta_0[1] = (yg-y) / 100.0; // Position error in the y direction in m.
 // Calculate the inner product of the velocity vector and the position error
 d_0 = v_c[0]*delta_0[0] + v_c[1]*delta_0[1];
 // Calculate the desired translational velocity
-v = K_OMEGA_1*d_0; // [m/s]
-left_1 = v*100; // [cm/s] We dont know the units of left and right, but assume cm/s.
-right_1 = v*100;
+v = K_OMEGA_1*d_0; // [rad/s]
+v = v*180.0/M_PI; // Convert to 1°/s
+// left_1 = v;
+// right_1 = v;
 
 // Task 6. Rotation control only.
 // left = left_0;

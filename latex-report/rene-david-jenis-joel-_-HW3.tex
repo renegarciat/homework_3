@@ -140,9 +140,9 @@ u_l = v - \frac{\omega}{2}.
 Therefore, the wheel speeds corresponding to $(v,\omega)$ are:
 \begin{equation}
 \boxed{
-u_r = v + \frac{\omega}{2},
+u_r = v + \frac{\omega}{2} \quad [1^\circ/s],
 \qquad
-u_l = v - \frac{\omega}{2}
+u_l = v - \frac{\omega}{2} \quad [1^\circ/s]
 }
 \label{eq:wheel_from_vomega}
 \end{equation}
@@ -352,7 +352,7 @@ During the rotation mode, the controller is
 \end{equation}
 The robot yaw dynamics satisfy
 \begin{equation}
-\dot{\theta}(t) = \frac{R}{L}\,\omega(t).
+\dot{\theta}(t) = \frac{R}{L}\,\omega(t) \quad [1^\circ/s].
 \label{eq:yaw_dyn}
 \end{equation}
 Using forward Euler discretization with sampling time $h$,
@@ -379,8 +379,13 @@ A practical choice is to pick $K_{\Psi,1}$ well inside this interval (e.g., $K_{
 % TODO: Explain more about the choice of $K_{\Psi,1}$. Could explain how a deadbeat is technically possible but 0.5 is a more robust choice.
 
 \section*{Task 6}
-
-Solution to the task
+First we define the proportional constant value. Given eq. \eqref{eq:stability_range}, we could 
+aim for a deadbeat controller by setting $K_{\Psi,1}=\frac{2L}{hR}$, nonetheless, this would force
+the controller to correct the error in one sampling step, completely ignoring physical limits and
+intertia. A safer value to chose is the middle of the stability range:
+\begin{equation}
+K_{\Psi,1}=\frac{1}{2}\frac{2L}{hR}=\frac{L}{hR}=\frac{0.16}{0.033*1} = 4.85\quad [1/s].
+\end{equation}
 \section*{Task 7}
 
 Assume $\theta[k+1]=\theta[k]=\theta$ so $v_c=\begin{bmatrix}\cos\theta & \sin\theta\end{bmatrix}^\top$ is constant and $v_c^\top v_c=1$.
