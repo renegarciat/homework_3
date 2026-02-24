@@ -33,6 +33,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
         
+        # Set default log file path
+        self.logfilelineedit.setText("/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/hecs-el2450-lab3/log.csv")
+        
         #create timer which are used for periodic execution of controlupdate and mocapupdate
         self.controllooptimer = QTimer()
         self.controllooptimer.timeout.connect(self.controlupdate)

@@ -4,12 +4,12 @@ const double R_TRUE = 0.033; // Radius of the wheel in meters
 const double L_TRUE = 0.160; // Distance between the wheels in meters
 const double K_PSI_1 = ((L_TRUE)/(H*R_TRUE)); // In the middle of the stability range.
 printf("The controller gain K_PSI_1 is set to %f\n", K_PSI_1);
-const double K_OMEGA_1 = 1/(2*H*R_TRUE); // Gain for the angular velocity in the pose control.
+const double K_OMEGA_1 = 1/(H*R_TRUE); // Gain for the angular velocity in the pose control.
 printf("The controller gain K_OMEGA_1 is set to %f\n", K_OMEGA_1);
 double theta_R = 0; // Desired orientation of the robot in degrees.
 double omega = 0; // Angular velocity of the robot in degrees per second.
 double angle_error = 0;
-double v = 0; // Translational velocity of the robot in cm/s.
+double v = 0; // Translational velocity of the robot in 1°/s.
 // Define the velocity vector
 double v_c[] = {0, 0}; // Desired velocity vector of the robot in the x and y direction in cm/s.
 double delta_0[] = {0, 0}; // Position error in the x and y direction in cm.

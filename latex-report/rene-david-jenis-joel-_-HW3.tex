@@ -382,10 +382,18 @@ A practical choice is to pick $K_{\Psi,1}$ well inside this interval (e.g., $K_{
 First we define the proportional constant value. Given eq. \eqref{eq:stability_range}, we could 
 aim for a deadbeat controller by setting $K_{\Psi,1}=\frac{2L}{hR}$, nonetheless, this would force
 the controller to correct the error in one sampling step, completely ignoring physical limits and
-intertia. A safer value to chose is the middle of the stability range:
+inertia. A safer value to chose is the middle of the stability range:
 \begin{equation}
 K_{\Psi,1}=\frac{1}{2}\frac{2L}{hR}=\frac{L}{hR}=\frac{0.16}{0.033*1} = 4.85\quad [1/s].
 \end{equation}
+To test the performance of the  controller, we run 3 different scenarios:
+\begin{itemize}
+\item \textbf{Scenario 1:} $\theta_R=90^\circ$, $\theta[0]=0^\circ$ (90 degree turn)
+
+\item \textbf{Scenario 2:} $\theta_R=180^\circ$, $\theta[0]=0^\circ$ (180 degree turn)
+\item \textbf{Scenario 3:} $\theta_R=45^\circ$, $\theta[0]=0^\circ$ (45 degree turn)
+\end{itemize}
+We can see that the controller \textbf{asymptotically stabilizes} the error in all three scenarios, and the convergence is \textbf{monotone} without oscillations or overshoot. The controller is also \textbf{robust to discretization/actuator limits} since it does not require aggressive corrections that could lead to saturation or instability.
 \section*{Task 7}
 
 Assume $\theta[k+1]=\theta[k]=\theta$ so $v_c=\begin{bmatrix}\cos\theta & \sin\theta\end{bmatrix}^\top$ is constant and $v_c^\top v_c=1$.
@@ -413,8 +421,10 @@ Asymptotic stability requires $\left|1-hR K_{\omega,1}\right|<1$, hence
 
 \section*{Task 8}
 
-Solution to the task
-
+Similarly to Task 6, we select $K_{\omega,1}$ in the middle of the stability interval:
+\begin{equation}
+K_{\omega,1}=\frac{1}{2}\frac{2}{hR}=\frac{1}{hR}=\frac{1}{0.033*1} = 30.3\quad [\frac{1}{m\cdot s}].
+\end{equation}
 \section*{Task 9}
 
 Solution to the task
