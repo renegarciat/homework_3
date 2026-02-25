@@ -389,11 +389,23 @@ K_{\Psi,1}=\frac{1}{2}\frac{2L}{hR}=\frac{L}{hR}=\frac{0.16}{0.033*1} = 4.85\qua
 To test the performance of the  controller, we run 3 different scenarios:
 \begin{itemize}
 \item \textbf{Scenario 1:} $\theta_R=90^\circ$, $\theta[0]=0^\circ$ (90 degree turn)
-
+\begin{center}
+  \includegraphics[width = 0.8\textwidth]{ss-err-90}
+\end{center}
+For this case, the wheels stop turning at around $1.85\,s$, and there is a \textbf{steady-state} error of $0.23^\circ$.
 \item \textbf{Scenario 2:} $\theta_R=180^\circ$, $\theta[0]=0^\circ$ (180 degree turn)
+\begin{center}
+  \includegraphics[width = 0.8\textwidth]{ss-err-180}
+\end{center}
+For this case, there is a constant ripple that slowly rotates the robot back and forth around the target angle. This is a case of limit cycle caused by quantization.
+For this case, we consider the largest error, that is, the peak of the ripple. Then, the \textbf{steady-state} error is $0.46^\circ$.
 \item \textbf{Scenario 3:} $\theta_R=45^\circ$, $\theta[0]=0^\circ$ (45 degree turn)
+\begin{center}
+  \includegraphics[width = 0.8\textwidth]{ss-err-45}
+\end{center}
+For this case, the wheels also stop turning at around $1.85\,s$, and there is a \textbf{steady-state} error of $0.78^\circ$.
 \end{itemize}
-We can see that the controller \textbf{asymptotically stabilizes} the error in all three scenarios, and the convergence is \textbf{monotone} without oscillations or overshoot. The controller is also \textbf{robust to discretization/actuator limits} since it does not require aggressive corrections that could lead to saturation or instability.
+In general, can see that the controller \textbf{asymptotically stabilizes} the error in all three scenarios, as we don't see divergence over time for any of the scenarios. %TODO: Is the oscilating case also asymptotically stable? 
 \section*{Task 7}
 
 Assume $\theta[k+1]=\theta[k]=\theta$ so $v_c=\begin{bmatrix}\cos\theta & \sin\theta\end{bmatrix}^\top$ is constant and $v_c^\top v_c=1$.

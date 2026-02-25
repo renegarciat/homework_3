@@ -1,0 +1,23 @@
+Time; Serial.print output 
+4218713.8600001335;SYS: :!set left=0 right=0;
+5225550.931000233;SYS: :!set left=0 right=0;
+6218752.470000267;SYS: :!set left=0 right=0;
+6553733.306000233;SYS: :!start_x=(cm)0 start_y=(cm)0:!goal_x=(cm)-100goal_y=(cm)0;
+7226440.993999958;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)119;
+7226440.993999958;SYS: :!set left=-147 right=147;
+8217686.81400013;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)179;
+8217686.81400013;SYS: :!set left=-2 right=2;
+9224856.822000027;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)-178;
+9224856.822000027;SYS: :!set left=4 right=-4;
+10217502.187000275;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)179;
+10217502.187000275;SYS: :!set left=-2 right=2;
+11226474.828000069;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)-179;
+11226474.828000069;SYS: :!set left=2 right=-2;
+12218859.901000023;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)179;
+12218859.901000023;SYS: :!set left=-2 right=2;
+13226271.859000206;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)-179;
+13226271.859000206;SYS: :!set left=2 right=-2;
+14218550.27699995;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)179;
+14218550.27699995;SYS: :!set left=-2 right=2;
+15225646.707000256;SYS: :!pose_x=(cm)0 pose_y=(cm)0 pose_theta=(degree)-179;
+15225646.707000256;SYS: :!set left=2 right=-2;
