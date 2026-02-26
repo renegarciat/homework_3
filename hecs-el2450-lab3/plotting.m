@@ -2,7 +2,7 @@
 % Parse and plot log_1.csv, log_2.csv, and log_3.csv
 % Experiments with different initial orientation errors
 clear; clc; close all;
-
+%% Task 6
 %% Load data from CSV files (skip header row)
 data1 = dlmread('log_1.csv', ';', 1, 0);  % 90° initial error
 data2 = dlmread('log_2.csv', ';', 1, 0);  % 180° initial error
@@ -97,3 +97,80 @@ for i = 1:3
     grid on;
     hold off;
 end
+%% Task 8
+%% ========================================================================
+%% Position Controller Response Visualization (Scenario 3)
+%% ========================================================================
+
+%% Load data from CSV files (skip header row)
+data6 = dlmread('log_6.csv', ';', 1, 0);  % Scenario 3: Mixed Diagonal (-1, 1)
+
+%% Extract and normalize time (convert from microseconds to seconds, start from 0)
+t6 = (data6(:,1) - data6(1,1)) / 1e6;
+
+%% Extract position data
+x6 = data6(:,2); y6 = data6(:,3);
+
+%% Calculate Error (Target X is -1, Target Y is 1)
+error_x6 = -1 - x6;
+error_y6 = 1 - y6;
+
+%% Plot Position vs Time and Error
+figure('Name', 'Position Control - Scenario 3');
+% X and Y Position vs Time
+subplot(2,1,1);
+hold on;
+plot(t6, x6, 'b-', 'LineWidth', 1.5, 'DisplayName', 'X Position');
+plot(t6, y6, 'r-', 'LineWidth', 1.5, 'DisplayName', 'Y Position');
+yline(-1, 'k--', 'LineWidth', 1, 'DisplayName', 'Target X');
+yline(1, 'r--', 'LineWidth', 1, 'DisplayName', 'Target Y');
+xlabel('Time [s]');
+ylabel('Position [m]');
+title('Scenario 3: Position vs Time');
+legend('Location', 'best');
+grid on;
+hold off;
+
+% X Error vs Time (Zoomed-in Steady State)
+subplot(2,1,2);
+hold on;
+plot(t6, x6, 'b-', 'LineWidth', 1.5, 'DisplayName', 'X Position');
+yline(-1, 'k--', 'LineWidth', 1, 'DisplayName', 'Target X');
+
+% Zoom to the last 20% of the time
+t_zoom_start = t6(end) * 0.8;
+xlim([t_zoom_start, t6(end)]);
+
+% Adjust Y-limits to center around setpoint and show steady state error
+zoom_idx = t6 >= t_zoom_start;
+x_zoom = x6(zoom_idx);
+sp_x = -1;
+if ~isempty(x_zoom)
+    y_margin = max(0.05, max(abs(x_zoom - sp_x)) * 1.5); % Dynamic margin
+    ylim([sp_x - y_margin, sp_x + y_margin]);
+    
+    % Calculate steady state error (use the max. value of the last window)
+    [max_err, max_idx] = max(abs(x_zoom - sp_x));
+    ss_error = x_zoom(max_idx) - sp_x;
+    
+    % Add text box with steady state error
+    text_str = sprintf('Steady-State Error: %.3f m', ss_error);
+    
+    % Get legend position to place the text box right above it
+    lgd = legend('Location', 'best');
+    drawnow; % Force update to get actual legend position
+    lgd_pos = lgd.Position;
+    
+    % Place text box above the legend, shifted slightly left to avoid crossing boundaries
+    annotation('textbox', [lgd_pos(1) - 0.07, lgd_pos(2) + lgd_pos(4) + 0.02, lgd_pos(3), 0.07], ...
+        'String', text_str, 'FitBoxToText', 'on', 'BackgroundColor', 'white', 'EdgeColor', 'black');
+end
+
+xlabel('Time [s]');
+ylabel('Position [m]');
+title('Steady-State Error (Position)');
+grid on;
+hold off;
+
+% Export the last figure to PDF
+exportgraphics(gcf, 'task_8_ss-err_3.pdf', 'ContentType', 'vector');

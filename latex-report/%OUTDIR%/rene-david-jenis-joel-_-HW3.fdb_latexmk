@@ -1,8 +1,8 @@
 # Fdb version 4
-["pdflatex"] 1772023955.51088 "/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/latex-report/rene-david-jenis-joel-_-HW3.tex" "rene-david-jenis-joel-_-HW3.pdf" "rene-david-jenis-joel-_-HW3" 1772023956.49983 0
-  "%OUTDIR%/rene-david-jenis-joel-_-HW3.aux" 1772023956.4089 1952 2ed28e84a351b638397d212491a9529c "pdflatex"
+["pdflatex"] 1772058565.44756 "/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/latex-report/rene-david-jenis-joel-_-HW3.tex" "rene-david-jenis-joel-_-HW3.pdf" "rene-david-jenis-joel-_-HW3" 1772058566.0352 2
+  "%OUTDIR%/rene-david-jenis-joel-_-HW3.aux" 1772058565.98203 1952 ed47613a5495da8a6c14184ea09a0dae "pdflatex"
   "/etc/texmf/web2c/texmf.cnf" 1758226670.82777 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/latex-report/rene-david-jenis-joel-_-HW3.tex" 1772023955.25539 21683 378a90ac0f7db4264ff731633c70f8d4 ""
+  "/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/latex-report/rene-david-jenis-joel-_-HW3.tex" 1772058564.58585 22816 b92869fd3abfe83299bafaaeff8f2182 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -159,10 +159,12 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1770030226 5343853 601bbd314393b130759279457cfe6e46 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1770030236 1958782 fdd2b404697aa41e60fe6bd3d69c7cb0 ""
   "Phase_portrait_with_regionmark.pdf" 1771680882.1278 79228 8950425b442b3e44a736fe961ba00048 ""
-  "rene-david-jenis-joel-_-HW3.tex" 1772023955.25539 21683 378a90ac0f7db4264ff731633c70f8d4 ""
+  "rene-david-jenis-joel-_-HW3.aux" 0 -1 0 ""
+  "rene-david-jenis-joel-_-HW3.tex" 1772058564.58585 22816 b92869fd3abfe83299bafaaeff8f2182 ""
   "ss-err-180.pdf" 1772022902.67047 24601 7bb027631e7020daa1aa52b2212ec3b1 ""
   "ss-err-45.pdf" 1772022917.34397 23597 f6683871e3d578db1c1b4727e7d147dc ""
   "ss-err-90.pdf" 1772022886.69709 24096 50b5fdc10effaa1bdab4ac19c0be2e20 ""
+  "task_8_ss-err_3.pdf" 1772058255.78572 29416 9a84ba9551eb5e22dd9af998df5c9ab3 ""
   (generated)
   "%OUTDIR%/rene-david-jenis-joel-_-HW3.aux"
   "%OUTDIR%/rene-david-jenis-joel-_-HW3.log"

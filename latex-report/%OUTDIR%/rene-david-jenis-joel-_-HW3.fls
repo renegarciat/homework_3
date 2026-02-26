@@ -169,9 +169,6 @@ INPUT /usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-INPUT %OUTDIR%/rene-david-jenis-joel-_-HW3.aux
-INPUT %OUTDIR%/rene-david-jenis-joel-_-HW3.aux
-INPUT %OUTDIR%/rene-david-jenis-joel-_-HW3.aux
 OUTPUT %OUTDIR%/rene-david-jenis-joel-_-HW3.aux
 INPUT /usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -271,6 +268,10 @@ INPUT ./ss-err-45.pdf
 INPUT ./ss-err-45.pdf
 INPUT ./ss-err-45.pdf
 INPUT ./ss-err-45.pdf
+INPUT ./task_8_ss-err_3.pdf
+INPUT ./task_8_ss-err_3.pdf
+INPUT ./task_8_ss-err_3.pdf
+INPUT ./task_8_ss-err_3.pdf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti8.tfm
 INPUT %OUTDIR%/rene-david-jenis-joel-_-HW3.aux
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb

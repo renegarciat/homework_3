@@ -17,6 +17,7 @@
 // We can derive the new angular speed
 // Derive theta_R
 theta_R = atan2(yg, xg)*180/M_PI; // Desired orientation of the robot in degrees.
+// theta_R = 180; Uncomment for testing.
 // Calculate angle error with wrapping to [-180, 180]
 angle_error = theta_R - theta;
 if (angle_error > 180) angle_error -= 360;
@@ -41,11 +42,11 @@ left_1 = v;
 right_1 = v;
 
 // Task 6. Rotation control only.
-left = left_0;
-right = right_0;
+// left = left_0;
+// right = right_0;
 // Task 8. Translation control only.
 // left = left_1;
 // right = right_1;
 // Task 9. Combine the controllers.
-// left = (int) (left_0 + left_1);
-// right = (int) (right_0 + right_1);
+left = (int) (left_0 + left_1);
+right = (int) (right_0 + right_1);

@@ -437,10 +437,30 @@ Similarly to Task 6, we select $K_{\omega,1}$ in the middle of the stability int
 \begin{equation}
 K_{\omega,1}=\frac{1}{2}\frac{2}{hR}=\frac{1}{hR}=\frac{1}{0.033*1} = 30.3\quad [\frac{1}{m\cdot s}].
 \end{equation}
+To test the performance of the  controller, we run 3 different scenarios:
+\begin{itemize}
+% \item \textbf{Scenario 1: Longitudinal error}\\
+% Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (-1,0)$
+% \begin{center}
+%   %\includegraphics[width = 0.8\textwidth]{task_8_ss-err_1}
+% \end{center}
+% \item \textbf{Scenario 2: Lateral Error}\\
+% Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (0,-1)$
+% \begin{center}
+%   %\includegraphics[width = 0.8\textwidth]{ss-err-180}
+% \end{center}
+\item \textbf{Scenario 3: Diagonal Error}\\
+Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (-1,1)$
+\begin{center}
+  \includegraphics[width = 0.8\textwidth]{task_8_ss-err_3}
+\end{center}
+As we can see, the robot moves only in the $x$ direction, as this is the direction it is facing. The controller successfully reduces the longitudinal error $d_0$ to zero.
+\end{itemize}
 \section*{Task 9}
-
-Solution to the task
-
+To test both controllers together, we simulate an scenario where 
+\begin{itemize}
+\item \textbf{Scenario 1:} Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (-1,1)$
+\begin{center}
 \section*{Task 10}
 
 Assume $\theta[k]=\theta_g$, hence $v_g=\begin{bmatrix}\cos\theta_g & \sin\theta_g\end{bmatrix}^\top$ is constant and $v_g^\top v_g=1$.
