@@ -18,3 +18,19 @@ double left_0 = 0; // [1°/s] Control input to the left wheel for the rotation c
 double right_0 = 0; // [1°/s] Control input to the right wheel for the rotation control.
 double left_1 = 0; // [1°/s] Control input to the left wheel for the pose control.
 double right_1 = 0; // [1°/s] Control input to the right wheel for the pose control.
+
+// ----------------------
+// Task 11 (Go-To-Goal Part I)
+// ----------------------
+
+const double R_CM = 100 * R_TRUE;  // Convert radius to cm
+
+// Stability condition: 0 < H*R*K < 2
+// Choose middle of interval: HRK = 1
+const double K_OMEGA_2 = 1/(H * R_CM);
+
+// Variables for Task 11
+double delta_g[] = {0, 0};   // Goal position error in cm
+double v_g[] = {0, 0};       // Unit direction toward goal
+double d_g = 0;              // Projected distance to goal
+double theta_g = 0;          // Desired angle in radians
