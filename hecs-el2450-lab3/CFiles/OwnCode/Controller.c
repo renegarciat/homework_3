@@ -17,7 +17,7 @@
 // We can derive the new angular speed
 // Derive theta_R
 theta_R = atan2(yg, xg)*180/M_PI; // Desired orientation of the robot in degrees.
-// theta_R = 180; Uncomment for testing.
+theta_R = 180; // Uncomment for testing.
 // Calculate angle error with wrapping to [-180, 180]
 angle_error = theta_R - theta;
 if (angle_error > 180) angle_error -= 360;
@@ -48,25 +48,25 @@ right_1 = v;
 // left = left_1;
 // right = right_1;
 // Task 9. Combine the controllers.
-// left = (int) (left_0 + left_1);
-// right = (int) (right_0 + right_1);
+left = (int) (left_0 + left_1);
+right = (int) (right_0 + right_1);
 
 // ----------------------
 // Task 11 (Go-To-Goal Part I)
 // ----------------------
 
-delta_g[0] = xg - x;
-delta_g[1] = yg - y;
+// delta_g[0] = xg - x;
+// delta_g[1] = yg - y;
 
-theta_g = atan2(delta_g[1], delta_g[0]);  // radians
+// theta_g = atan2(delta_g[1], delta_g[0]);  // radians
 
-v_g[0] = cos(theta_g);
-v_g[1] = sin(theta_g);
+// v_g[0] = cos(theta_g);
+// v_g[1] = sin(theta_g);
 
-d_g = v_g[0]*delta_g[0] + v_g[1]*delta_g[1];
+// d_g = v_g[0]*delta_g[0] + v_g[1]*delta_g[1];
 
-v = K_OMEGA_2 * d_g;
-omega = 0;
+// v = K_OMEGA_2 * d_g;
+// omega = 0;
 
-right = v + omega/2;
-left  = v - omega/2;
+// right = v + omega/2;
+// left  = v - omega/2;

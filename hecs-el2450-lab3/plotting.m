@@ -174,3 +174,48 @@ hold off;
 
 % Export the last figure to PDF
 exportgraphics(gcf, 'task_8_ss-err_3.pdf', 'ContentType', 'vector');
+%% Task 9
+%% ========================================================================
+%% Combined Position and Angle Controller Response Visualization (Scenario 1)
+%% ========================================================================
+
+%% Load data from CSV files (skip header row)
+data7 = dlmread('log_7.csv', ';', 1, 0);  % Scenario 1: Combined Control
+
+%% Extract and normalize time (convert from microseconds to seconds, start from 0)
+t7 = (data7(:,1) - data7(1,1)) / 1e6;
+
+%% Extract position and orientation data
+x7 = data7(:,2); 
+y7 = data7(:,3);
+theta7 = rad2deg(unwrap(deg2rad(data7(:,4))));
+
+%% Plot Position and Orientation vs Time
+figure('Name', 'Combined Control - Scenario 1', 'Position', [100, 100, 800, 600]);
+
+% Subplot 1: X and Y Position vs Time
+subplot(2,1,1);
+hold on;
+plot(t7, x7, 'b-', 'LineWidth', 1.5, 'DisplayName', 'X Position');
+plot(t7, y7, 'r-', 'LineWidth', 1.5, 'DisplayName', 'Y Position');
+yline(1, 'k--', 'LineWidth', 1, 'DisplayName', 'Target X & Y');
+xlabel('Time [s]');
+ylabel('Position [m]');
+title('Scenario 1: Position vs Time');
+legend('Location', 'best');
+grid on;
+hold off;
+
+% Subplot 2: Orientation vs Time
+subplot(2,1,2);
+hold on;
+plot(t7, theta7, 'g-', 'LineWidth', 1.5, 'DisplayName', '\theta');
+yline(180, 'g--', 'LineWidth', 1, 'DisplayName', 'Target \theta');
+xlabel('Time [s]');
+ylabel('\theta [deg]');
+title('Scenario 1: Orientation vs Time');
+legend('Location', 'best');
+grid on;
+hold off;
+
+exportgraphics(gcf, 'task_9_combined_pos_angle.pdf', 'ContentType', 'vector');

@@ -1,8 +1,8 @@
 # Fdb version 4
-["pdflatex"] 1772058565.44756 "/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/latex-report/rene-david-jenis-joel-_-HW3.tex" "rene-david-jenis-joel-_-HW3.pdf" "rene-david-jenis-joel-_-HW3" 1772058566.0352 2
-  "%OUTDIR%/rene-david-jenis-joel-_-HW3.aux" 1772058565.98203 1952 ed47613a5495da8a6c14184ea09a0dae "pdflatex"
+["pdflatex"] 1772116668.31735 "/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/latex-report/rene-david-jenis-joel-_-HW3.tex" "rene-david-jenis-joel-_-HW3.pdf" "rene-david-jenis-joel-_-HW3" 1772116668.88437 0
+  "%OUTDIR%/rene-david-jenis-joel-_-HW3.aux" 1772116668.83156 1840 796b0513589f24d525b82014d134017f "pdflatex"
   "/etc/texmf/web2c/texmf.cnf" 1758226670.82777 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/latex-report/rene-david-jenis-joel-_-HW3.tex" 1772058564.58585 22816 b92869fd3abfe83299bafaaeff8f2182 ""
+  "/mnt/shr/notes/90_Library/Uni/KTH/EL2450_hybrid_and_embedded_control_systems/homework_3/latex-report/rene-david-jenis-joel-_-HW3.tex" 1772116668.1487 19809 0b27a16f68c8716b4178f78029e4e2e8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -30,7 +30,6 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti12.tfm" 1136768653 1484 ed72f8f5cf654cda15ecc8e32bfcbee5 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti8.tfm" 1136768653 1504 1747189e0441d1c18f3ea56fafc1c480 ""
-  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm" 1136768653 772 9a936b7f5e2ff0557fce0f62822f0bbf ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1248133631 32080 340ef9bf63678554ee606688e7b5339d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1248133631 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
@@ -46,7 +45,6 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1248133631 32626 4f5c1b83753b1dd3a97d1b399a005b4b ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb" 1248133631 36118 fad905eba93cff5bce1e185fe980a177 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb" 1248133631 35660 fb24af7afbadb71801619f1415838111 ""
-  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb" 1248133631 24252 1e4e051947e12dfb50fee0b7f4e26e3a ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1248133631 34694 ad62b13721ee8eda1dcc8993c8bd7041 ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf" 1496785618 7008 9ff5fdcc865b01beca2b0fe4a46231d4 ""
@@ -158,13 +156,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1741904018 41538 c016915c1d51223b6dbbfe27341748a8 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1770030226 5343853 601bbd314393b130759279457cfe6e46 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1770030236 1958782 fdd2b404697aa41e60fe6bd3d69c7cb0 ""
-  "Phase_portrait_with_regionmark.pdf" 1771680882.1278 79228 8950425b442b3e44a736fe961ba00048 ""
-  "rene-david-jenis-joel-_-HW3.aux" 0 -1 0 ""
-  "rene-david-jenis-joel-_-HW3.tex" 1772058564.58585 22816 b92869fd3abfe83299bafaaeff8f2182 ""
+  "rene-david-jenis-joel-_-HW3.tex" 1772116668.1487 19809 0b27a16f68c8716b4178f78029e4e2e8 ""
   "ss-err-180.pdf" 1772022902.67047 24601 7bb027631e7020daa1aa52b2212ec3b1 ""
-  "ss-err-45.pdf" 1772022917.34397 23597 f6683871e3d578db1c1b4727e7d147dc ""
   "ss-err-90.pdf" 1772022886.69709 24096 50b5fdc10effaa1bdab4ac19c0be2e20 ""
   "task_8_ss-err_3.pdf" 1772058255.78572 29416 9a84ba9551eb5e22dd9af998df5c9ab3 ""
+  "task_9_combined_pos_angle.pdf" 1772116239.30173 44676 46ee9560e49880170e069b6b08e1522c ""
   (generated)
   "%OUTDIR%/rene-david-jenis-joel-_-HW3.aux"
   "%OUTDIR%/rene-david-jenis-joel-_-HW3.log"

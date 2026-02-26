@@ -43,68 +43,6 @@
 
 \maketitle                     % Generates the title
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Instructions regarding the report
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{Instructions and Help}
-
-\textbf{Please remove this part and the sample references before submitting your homework.}
-
-Read the general homework instructions available on the course homepage before starting to write the report.
-
-Here are some additional guidelines how to write a homework report.
-\begin{itemize}
- \item Fill in name and personal number of all group members.
- \item Each group uploads one file on Canvas within the deadline specified on the \texttt{Homework} page.
- \item This report should contain solutions to the first 19 tasks in Homework~3.
- \item This file needs to be one zip file with name \texttt{name1-name2-name3-name4-name5-HW3.zip}, where \texttt{name1,...,name4,name5} are the last names of the authors. The zip file should contain 4 files: one pdf file named \texttt{name1-name2-name3-name4-name5-HW3.pdf} and three controller files \texttt{OwnVariables.c}, \texttt{Controller.c} and
- \texttt{RenewControllerState.c}.
- \item Do not copy the task descriptions and use the structure below.
- \item Do not include code unless the task explicitly states so.
- \item Motivate your answers well and how you derived them, but be concise.
- \item The number of points is not necessarily related to much you need to write for task.
- \item Put references in the end if any.
- \item Do not include plots from the Simulink scope (color on black background) but export the data to Matlab for plotting.
- \item Include graphics directly in the text and not in a Figure environment, as you normally would. That makes it easier to correct the report.
- \item There is plenty of material available how to use Latex. Use a search engine of your choice to learn more.
-\end{itemize}
-
-Here are some examples how to use Latex:
-\begin{itemize}
- \item An equation with a reference \eqref{eq_sample} to it
- \begin{equation}
-  \dot{x} = \frac{3}{4} x. \label{eq_sample}
- \end{equation}
- \item A multi-line equations with a reference to it
- \begin{align*}
-  \hat{x} &= x - y\\
-  \alpha &= x + \gamma.
- \end{align*}
- \item An equation in text: $\Phi = \int\limits_{0}^{h} \mathrm{e}^{A\tau} d \tau$.
- \item An image
- \begin{center}
-  \includegraphics[width = 0.8\textwidth]{Phase_portrait_with_regionmark}
- \end{center}
- \item A table
-
- \begin{tabular}{@{\vrule height 10.5pt depth4pt  width0pt}|c|c|c|c|}
-    \hline
-     $-2.46$ & $0$ & $-1.73$ & $0$ \\ \hline
-     $0$ & $-2.553$ & $0$ & $2.774$ \\ \hline
-     $0$ & $6.172$ & $-10$ & $7.333$ \\ \hline
-     $1.767$ & $-0.357$ & $5.714$ & $-6.074$ \\ \hline
-  \end{tabular}
-  \item A citation \cite{Oetiker:2008:TheNotSoShortIntroductiontoLaTeXe}
-  \item Display something exactly as it is written: \verb|\frac{1}{2}_|
-  \item Basic formating: \textbf{bold}, \textit{italics}, \texttt{typewriter}
-\end{itemize}
-
-
-
 \section*{Task 1: Compute $u_r$ and $u_l$ from $(v,\omega)$}
 
 The robot inputs are defined as :
@@ -386,26 +324,21 @@ inertia. A safer value to chose is the middle of the stability range:
 \begin{equation}
 K_{\Psi,1}=\frac{1}{2}\frac{2L}{hR}=\frac{L}{hR}=\frac{0.16}{0.033*1} = 4.85\quad [1/s].
 \end{equation}
-To test the performance of the  controller, we run 3 different scenarios:
+To test the performance of the  controller, we run 2 different scenarios:
 \begin{itemize}
 \item \textbf{Scenario 1:} $\theta_R=90^\circ$, $\theta[0]=0^\circ$ (90 degree turn)
 \begin{center}
-  \includegraphics[width = 0.8\textwidth]{ss-err-90}
+  \includegraphics[width = 0.7\textwidth]{ss-err-90}
 \end{center}
 For this case, the wheels stop turning at around $1.85\,s$, and there is a \textbf{steady-state} error of $0.23^\circ$.
 \item \textbf{Scenario 2:} $\theta_R=180^\circ$, $\theta[0]=0^\circ$ (180 degree turn)
 \begin{center}
-  \includegraphics[width = 0.8\textwidth]{ss-err-180}
+  \includegraphics[width = 0.7\textwidth]{ss-err-180}
 \end{center}
 For this case, there is a constant ripple that slowly rotates the robot back and forth around the target angle. This is a case of limit cycle caused by quantization.
 For this case, we consider the largest error, that is, the peak of the ripple. Then, the \textbf{steady-state} error is $0.46^\circ$.
-\item \textbf{Scenario 3:} $\theta_R=45^\circ$, $\theta[0]=0^\circ$ (45 degree turn)
-\begin{center}
-  \includegraphics[width = 0.8\textwidth]{ss-err-45}
-\end{center}
-For this case, the wheels also stop turning at around $1.85\,s$, and there is a \textbf{steady-state} error of $0.78^\circ$.
 \end{itemize}
-In general, can see that the controller \textbf{asymptotically stabilizes} the error in all three scenarios, as we don't see divergence over time for any of the scenarios. %TODO: Is the oscilating case also asymptotically stable? 
+In general, can see that the controller \textbf{asymptotically stabilizes} the error in both scenarios, as we don't see divergence over time.
 \section*{Task 7}
 
 Assume $\theta[k+1]=\theta[k]=\theta$ so $v_c=\begin{bmatrix}\cos\theta & \sin\theta\end{bmatrix}^\top$ is constant and $v_c^\top v_c=1$.
@@ -437,7 +370,7 @@ Similarly to Task 6, we select $K_{\omega,1}$ in the middle of the stability int
 \begin{equation}
 K_{\omega,1}=\frac{1}{2}\frac{2}{hR}=\frac{1}{hR}=\frac{1}{0.033*1} = 30.3\quad [\frac{1}{m\cdot s}].
 \end{equation}
-To test the performance of the  controller, we run 3 different scenarios:
+To test the performance of the  controller, we run 1 single scenario:
 \begin{itemize}
 % \item \textbf{Scenario 1: Longitudinal error}\\
 % Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (-1,0)$
@@ -449,18 +382,23 @@ To test the performance of the  controller, we run 3 different scenarios:
 % \begin{center}
 %   %\includegraphics[width = 0.8\textwidth]{ss-err-180}
 % \end{center}
-\item \textbf{Scenario 3: Diagonal Error}\\
+\item \textbf{Scenario 1: Diagonal Error}\\
 Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (-1,1)$
 \begin{center}
   \includegraphics[width = 0.8\textwidth]{task_8_ss-err_3}
 \end{center}
-As we can see, the robot moves only in the $x$ direction, as this is the direction it is facing. The controller successfully reduces the longitudinal error $d_0$ to zero.
+As we can see, the robot moves only in the $x$ direction, as this is the direction it is facing initially. The controller successfully reduces the X error to zero, but the Y error remains.
 \end{itemize}
 \section*{Task 9}
-To test both controllers together, we simulate an scenario where 
+To test both controllers together, we simulate an scenario where we have error in the position and angle, and enable both controllers.
 \begin{itemize}
-\item \textbf{Scenario 1:} Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (-1,1)$
+\item \textbf{Scenario 1:} Starting position: $(x_0,y_0) = (0,0),\,\theta=0^\circ$ Target: $(x_g,y_g) = (1,1),\,\theta^R=180^\circ $
 \begin{center}
+  \includegraphics[width = 0.7\textwidth]{task_9_combined_pos_angle}
+\end{center}
+\end{itemize}
+As we can see, the angle error is corrected first, and then blocking the posiblitiy of correcting the position error. This can become a race condition.
+
 \section*{Task 10}
 
 Assume $\theta[k]=\theta_g$, hence $v_g=\begin{bmatrix}\cos\theta_g & \sin\theta_g\end{bmatrix}^\top$ is constant and $v_g^\top v_g=1$.
