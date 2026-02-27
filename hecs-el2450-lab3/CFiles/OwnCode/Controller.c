@@ -2,7 +2,7 @@
     - The Activate Simulatio is active.
     - The Automatic Control is active.
     Then:
-    - This file is periodically called every h. TODO: Determine where is the actual sampling period stored/defined. 
+    - This file is periodically called every h.
     Input Variables:
     - x, y, theta: (in cm and degrees) the current pose of the robot as measured by the mocap system.
     - int x0, y0: the start position of the robot in cm.
@@ -12,8 +12,10 @@
 
     The purpose of the algorithm is first to rotate and then to move straight.
 */
+dx = xg-x0;
+dy = yg-y0;
 // Task 6
-theta_R = atan2(yg - y0, xg - x0)*180/M_PI; // Desired orientation of the robot in degrees.
+theta_R = atan2(dy, dx)*180/M_PI; // Desired orientation of the robot in degrees.
 // Calculate angle error with wrapping to [-180, 180]
 angle_error = theta_R - theta;
 if (angle_error > 180) angle_error -= 360;
@@ -57,7 +59,7 @@ right = (int) task9_right;
 delta_g[0] = xg - x;
 delta_g[1] = yg - y;
 
-theta_g = atan2(yg-y0, xg-x0);  // radians
+theta_g = atan2(dy, dx);  // radians
 
 v_g[0] = cos(theta_g);
 v_g[1] = sin(theta_g);
@@ -67,49 +69,77 @@ v = K_OMEGA_2 * d_g;
 v = v*180.0/M_PI; // Convert to 1°/s
 right_0 = v;
 left_0  = v;
-// ----------------------
-// Task 13 (Go-To-Goal Part II)
-dp = p*sin(theta_g - theta*(M_PI/180.0));
-omega = K_PSI_2 * (dp);
-omega = omega*180.0/M_PI; // Convert to 1°/s
-printf("The value of dp is %f\n", dp);
-printf("The value of omega is %f\n", omega);
-// Since v = 0
-left_1 = -omega/2.0;
-right_1 = omega/2.0;
-left = (int) left_1 + (int) left_0;
-right = (int) right_1 + (int) right_0;
-// // Task 15. Both controls together.
-task15_left = left_0 + left_1;
-task15_right = right_0 + right_1;
-// left = (int) (left_0 + left_1);
-// right = (int) (right_0 + right_1);
+//Task 13
+// 1. Line direction
 
-// Task 17
-pos_error = sqrt(delta_0[0]*delta_0[0] + delta_0[1]*delta_0[1]);
-if (task17_state == 0) {
-    // Check if we are close enough to (x0, y0) and oriented towards (xg, yg)
-    // or if the rotor speed is below the minimum threshold
-    if ((pos_error < pos_tol && fabs(angle_error) < ang_tol) || 
-        (fabs(task9_left) < min_speed && fabs(task9_right) < min_speed)) {
-        task17_state = 1;
-        printf("Switching to Go-To-Goal (Task 13 & 15)\n");
-    }
-}
+line_norm = sqrt(dx*dx + dy*dy);
 
-if (task17_state == 0) {
-    left = (int) task9_left;
-    right = (int) task9_right;
+
+if (line_norm < 1e-6) {
+     left = 0;
+     right = 0;
 } else {
-    left = (int) task15_left;
-    right = (int) task15_right;
-}
+     // 2. Perpendicular unit vector
+     vg_perp_x =  dy / line_norm;
+     vg_perp_y = -dx / line_norm;
 
-// 5. Motor Saturation (Clamping)
-if (left > 800) left = 800;
-else if (left < -800) left = -800;
+     // 3. Virtual point
+     theta_rad = theta * M_PI / 180.0;
 
-if (right > 800) right = 800;
-else if (right < -800) right = -800;
+     // convert P_LOOKAHEAD (m) → cm
+     xp = x + (P * 100.0) * cos(theta_rad);
+     yp = y + (P * 100.0) * sin(theta_rad);
 
-// Task 18
+     // 4. Vector from start to virtual point
+     vp_x = xp - x0;
+     vp_y = yp - y0;
+
+     // 5. Exact dp (cm)
+     d_p = vg_perp_x * vp_x + vg_perp_y * vp_y;
+
+     // convert cm → meters
+     d_p = d_p / 100;
+
+     // 6. Controller
+     omega = K_PSI_2 * d_p *180.0/M_PI;
+     v = 0;
+
+     // 7. Wheel speeds
+     right = (int)(v + omega / 2.0);
+     left  = (int)(v - omega / 2.0);
+    }
+
+// // Task 15. Both controls together.
+// task15_left = left_0 + left_1;
+// task15_right = right_0 + right_1;
+// // left = (int) (left_0 + left_1);
+// // right = (int) (right_0 + right_1);
+
+// // Task 17
+// pos_error = sqrt(delta_0[0]*delta_0[0] + delta_0[1]*delta_0[1]);
+// if (task17_state == 0) {
+//     // Check if we are close enough to (x0, y0) and oriented towards (xg, yg)
+//     // or if the rotor speed is below the minimum threshold
+//     if ((pos_error < pos_tol && fabs(angle_error) < ang_tol) || 
+//         (fabs(task9_left) < min_speed && fabs(task9_right) < min_speed)) {
+//         task17_state = 1;
+//         printf("Switching to Go-To-Goal (Task 13 & 15)\n");
+//     }
+// }
+
+// if (task17_state == 0) {
+//     left = (int) task9_left;
+//     right = (int) task9_right;
+// } else {
+//     left = (int) task15_left;
+//     right = (int) task15_right;
+// }
+
+// // 5. Motor Saturation (Clamping)
+// if (left > 800) left = 800;
+// else if (left < -800) left = -800;
+
+// if (right > 800) right = 800;
+// else if (right < -800) right = -800;
+
+// // Task 18

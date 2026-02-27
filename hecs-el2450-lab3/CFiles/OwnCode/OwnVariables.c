@@ -18,11 +18,17 @@ double left_0 = 0; // [1°/s] Control input to the left wheel for the rotation c
 double right_0 = 0; // [1°/s] Control input to the right wheel for the rotation control.
 double left_1 = 0; // [1°/s] Control input to the left wheel for the pose control.
 double right_1 = 0; // [1°/s] Control input to the right wheel for the pose control.
-
-// ----------------------
-// Task 11 (Go-To-Goal Part I)
-// ----------------------
-
+double dx = 0;
+double dy = 0;
+double line_norm = 0;
+double vg_perp_x = 0;
+double vg_perp_y = 0;
+double theta_rad = 0;
+double xp = 0;
+double yp = 0;
+double vp_x = 0;
+double vp_y = 0;
+double d_p = 0;
 const double R_CM = 100 * R_TRUE;  // Convert radius to cm
 
 // Stability condition: 0 < H*R*K < 2
@@ -35,10 +41,10 @@ double v_g[] = {0, 0};       // Unit direction toward goal
 double d_g = 0;              // Projected distance to goal
 double theta_g = 0;          // Desired angle in radians
 // Task 13
-const double p = L_TRUE * 2; // 2 times the body length
+const double P = L_TRUE * 2; // 2 times the body length
 double dp =0;
 const double alpha = 0.5;
-const double K_PSI_2 = alpha*(L_TRUE/(H*R_TRUE*p));
+const double K_PSI_2 = alpha*(L_TRUE/(H*R_TRUE*P));
 printf("The controller gain K_PSI_2 is set to %f\n", K_PSI_2);
 
 // ----------------------
