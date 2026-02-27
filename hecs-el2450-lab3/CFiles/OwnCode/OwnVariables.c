@@ -28,9 +28,28 @@ const double R_CM = 100 * R_TRUE;  // Convert radius to cm
 // Stability condition: 0 < H*R*K < 2
 // Choose middle of interval: HRK = 1
 const double K_OMEGA_2 = 1/(H * R_CM);
-
+printf("The controller gain K_OMEGA_2 is set to %f\n", K_OMEGA_2);
 // Variables for Task 11
 double delta_g[] = {0, 0};   // Goal position error in cm
 double v_g[] = {0, 0};       // Unit direction toward goal
 double d_g = 0;              // Projected distance to goal
 double theta_g = 0;          // Desired angle in radians
+// Task 13
+const double p = L_TRUE * 2; // 2 times the body length
+double dp =0;
+const double alpha = 0.5;
+const double K_PSI_2 = alpha*(L_TRUE/(H*R_TRUE*p));
+printf("The controller gain K_PSI_2 is set to %f\n", K_PSI_2);
+
+// ----------------------
+// Task 17
+// ----------------------
+int task17_state = 0;
+double pos_tol = 0.05; // 5 cm = 0.05 m
+double ang_tol = 5.0; // 5 degrees
+double min_speed = 10.0; // 10 degrees/s
+double task9_left = 0;
+double task9_right = 0;
+double task15_left = 0;
+double task15_right = 0;
+double pos_error = 0;

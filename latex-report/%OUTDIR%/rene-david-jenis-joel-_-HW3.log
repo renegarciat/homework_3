@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.2.2)  26 FEB 2026 15:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.2.2)  26 FEB 2026 15:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -511,19 +511,19 @@ Package pdftex.def Info: ss-err-180.pdf  used on input line 336.
 <task_8_ss-err_3.pdf, id=90, 524.96124pt x 420.57124pt>
 File: task_8_ss-err_3.pdf Graphic file (type pdf)
 <use task_8_ss-err_3.pdf>
-Package pdftex.def Info: task_8_ss-err_3.pdf  used on input line 388.
+Package pdftex.def Info: task_8_ss-err_3.pdf  used on input line 387.
 (pdftex.def)             Requested size: 362.37569pt x 290.32281pt.
 
 
 [6 <./task_8_ss-err_3.pdf>]
-Overfull \hbox (10.04234pt too wide) in paragraph at lines 395--396
+Overfull \hbox (10.04234pt too wide) in paragraph at lines 394--395
 []\OT1/cmr/bx/n/12 Scenario 1: \OT1/cmr/m/n/12 Start-ing po-si-tion: $(\OML/cmm/m/it/12 x[]; y[]\OT1/cmr/m/n/12 ) = (0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0)\OML/cmm/m/it/12 ;  ^^R \OT1/cmr/m/n/12 = 0[]$ Tar-get: $(\OML/cmm/m/it/12 x[]; y[]\OT1/cmr/m/n/12 ) = (1\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1)\OML/cmm/m/it/12 ;  ^^R[] \OT1/cmr/m/n/12 =
  []
 
 <task_9_combined_pos_angle.pdf, id=113, 603.25375pt x 485.815pt>
 File: task_9_combined_pos_angle.pdf Graphic file (type pdf)
 <use task_9_combined_pos_angle.pdf>
-Package pdftex.def Info: task_9_combined_pos_angle.pdf  used on input line 397.
+Package pdftex.def Info: task_9_combined_pos_angle.pdf  used on input line 396.
 (pdftex.def)             Requested size: 317.07614pt x 255.3458pt.
 
 

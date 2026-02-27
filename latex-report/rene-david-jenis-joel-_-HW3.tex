@@ -30,7 +30,7 @@
 \author{
   Rene Garcia \\ 20010124-5512 \\ reneogt@kth.se
   \and
-  First name2 Last name2 \\ person number \\ email
+  Daniel Skott \\ 20020314-5214 \\ dskott@kth.se
   \and
   Joel Aggefors \\ 20030301-4575 \\ joelag@kth.se
   \and
@@ -234,7 +234,7 @@ R_j \text{ is the adjacent region to } R_i \text{ in direction } \sigma\in\Sigma
 The labeling function $L:S\to 2^{AP}$ is defined using the point-in-region rule above.
 
 
-\section*{Q3: Find an infinite path satisfying the specification}
+\section*{Task 3: Find an infinite path satisfying the specification}
 
 \textbf{Specification:}
 (i) visit \textsf{red} infinitely often,
@@ -243,7 +243,7 @@ The labeling function $L:S\to 2^{AP}$ is defined using the point-in-region rule 
 
 \medskip
 \textbf{Chosen \textsf{red}--\textsf{blue} pair:}
-From the labeling in Q2, $R_{20}\in \textsf{red}$ and $R_{21}\in \textsf{blue}$, and they are adjacent in the $6\times 6$ grid
+From the labeling in Task 2, $R_{20}\in \textsf{red}$ and $R_{21}\in \textsf{blue}$, and they are adjacent in the $6\times 6$ grid
 ($R_{21}$ is directly below $R_{20}$). Moreover, $R_{20},R_{21}\notin \textsf{obstacle}$.
 
 \medskip
@@ -267,7 +267,7 @@ Then, repeat the 2-cycle $(R_{20},R_{21})$ forever:
 \item All regions used in $\pi$ are chosen outside the set of \textsf{obstacle} regions, hence obstacles are never entered.
 \end{itemize}
 
-\section*{Q4}
+\section*{Task 4}
 
 The hybrid strategy prevents entering unintended regions by separating the motion into two
 simple phases. First, the robot uses a rotation mode with (approximately) zero forward
@@ -281,7 +281,7 @@ Therefore, if the tracking error is kept small, the robot remains inside only th
 target regions during the transition, and it avoids passing through any other region that
 could contain an obstacle.
 
-\section*{Q5}
+\section*{Task 5}
 
 During the rotation mode, the controller is
 \begin{equation}
@@ -365,7 +365,6 @@ Asymptotic stability requires $\left|1-hR K_{\omega,1}\right|<1$, hence
 
 
 \section*{Task 8}
-
 Similarly to Task 6, we select $K_{\omega,1}$ in the middle of the stability interval:
 \begin{equation}
 K_{\omega,1}=\frac{1}{2}\frac{2}{hR}=\frac{1}{hR}=\frac{1}{0.033*1} = 30.3\quad [\frac{1}{m\cdot s}].
@@ -387,7 +386,8 @@ Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (-
 \begin{center}
   \includegraphics[width = 0.8\textwidth]{task_8_ss-err_3}
 \end{center}
-As we can see, the robot moves only in the $x$ direction, as this is the direction it is facing initially. The controller successfully reduces the X error to zero, but the Y error remains.
+As we can see, the robot moves only in the $x$ direction, as this is the direction it is facing initially. The controller successfully reduces the X error to zero, but the Y error remains, therefore, \textbf{We conclude that it is not possible to ensure that [x[k], y[k]]T stays exactly
+at [x0, y0]T for any initial orientation.}
 \end{itemize}
 \section*{Task 9}
 To test both controllers together, we simulate an scenario where we have error in the position and angle, and enable both controllers.
@@ -397,7 +397,7 @@ To test both controllers together, we simulate an scenario where we have error i
   \includegraphics[width = 0.7\textwidth]{task_9_combined_pos_angle}
 \end{center}
 \end{itemize}
-As we can see, the angle error is corrected first, and then blocking the posiblitiy of correcting the position error. This can become a race condition.
+As we can see, the angle error is completely corrected first, thus blocking the posiblitiy of correcting the position error. \textbf{In conclusion, there is a cross-coupling effect between the rotational and translational dynamics.}
 
 \section*{Task 10}
 
@@ -426,7 +426,30 @@ and robustness to discretization/actuator limits.
 
 \section*{Task 11}
 
-Solution to the task
+The closed-loop dynamics of $d_g$ are
+\[
+d_g[k+1] = (1 - HRK_{\omega,2}) d_g[k].
+\]
+For $0 < HRK_{\omega,2} < 2$, we have $|1 - HRK_{\omega,2}| < 1$, hence
+\[
+\lim_{k\to\infty} d_g[k] = 0.
+\]
+Thus, $d_g$ is asymptotically stabilized in $0$.
+
+However, since $\omega[k]=0$, the orientation $\theta$ remains constant and the robot moves along a fixed straight line. If the initial orientation is not aligned with the goal direction, the robot cannot correct lateral error. Therefore,
+\[
+[x[k],y[k]]^T \not\to [x_g,y_g]^T
+\]
+for arbitrary initial orientations.
+
+In Fig.~\ref{fig:Task11.1} we can see that the robot travels in a straight line and that it comes closer to the goal. Another observation not observable in the graph is that the robot slows down and stops at the goal.
+
+\begin{figure} [h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{result_from_task11_simulation.png}
+    \caption{Result from discrete straight line controller}
+    \label{fig:Task11.1}
+\end{figure}
 
 \section*{Task 12}
 
@@ -469,8 +492,15 @@ closed-loop behavior consistent when the sampling time $h$ changes.
 
 
 \section*{Task 13}
+If we model the corrective input using the (nonlinear) sine term, for instance
+\[
+d_p \approx p\,\sin(\theta_g-\theta),
+\]
+then \(p\) plays the role of a proportional gain. Increasing \(p\) improves the tracking accuracy of \(\theta\) to the goal \(\theta_g\). However, if \(p\) is chosen too large the closed-loop trajectory typically oscillates around \(\theta_g\) and cannot settle at a point. Intuitively this happens because the region of attraction (the set of initial conditions that converge to \(\theta_g\)) shrinks as \(p\) increases, so overly large gains reduce stability margins and promote sustained oscillations.
 
-Solution to the task
+\smallskip
+
+\textbf{Remark.} In particular one must not replace \(\sin(\theta_g-\theta)\) by \(\theta_g-\theta\) unless the small-angle approximation is explicitly justified.
 
 \section*{Task 14}
 
