@@ -41,11 +41,12 @@ double v_g[] = {0, 0};       // Unit direction toward goal
 double d_g = 0;              // Projected distance to goal
 double theta_g = 0;          // Desired angle in radians
 // Task 13
-const double P = L_TRUE * 2; // 2 times the body length
+double P = L_TRUE * 2; // 2 times the body length
 double dp =0;
 const double alpha = 0.5;
-const double K_PSI_2 = alpha*(L_TRUE/(H*R_TRUE*P));
+double K_PSI_2 = alpha*(L_TRUE/(H*R_TRUE*P));
 printf("The controller gain K_PSI_2 is set to %f\n", K_PSI_2);
+double invariant_pole = 0; 
 
 // ----------------------
 // Task 17

@@ -69,9 +69,9 @@ v = K_OMEGA_2 * d_g;
 v = v*180.0/M_PI; // Convert to 1°/s
 right_0 = v;
 left_0  = v;
+
 //Task 13
 // 1. Line direction
-
 line_norm = sqrt(dx*dx + dy*dy);
 
 
@@ -105,15 +105,67 @@ if (line_norm < 1e-6) {
      v = 0;
 
      // 7. Wheel speeds
-     right = (int)(v + omega / 2.0);
-     left  = (int)(v - omega / 2.0);
+     right_1 = (int)(v + omega / 2.0);
+     left_1  = (int)(v - omega / 2.0);
     }
 
-// // Task 15. Both controls together.
-// task15_left = left_0 + left_1;
-// task15_right = right_0 + right_1;
-// // left = (int) (left_0 + left_1);
-// // right = (int) (right_0 + right_1);
+// ----------------------
+// Task 14 (Simulation & Pole Invariance Test)
+// ----------------------
+// 2. Set your test lookahead distance (p) in meters.
+// TODO: Run the simulation three times, changing this to 0.1, 0.5, and 2.0
+P = 0.5; 
+x0 = -0.37;
+y0 = 0.23;
+dx = xg-x0;
+dy = yg-y0;
+// 3. Maintain an invariant pole. 
+// We choose a constant C (e.g., 2.0) so the response time stays the same.
+invariant_pole = 0.5; 
+K_PSI_2 = invariant_pole / P;
+printf("The controller gain K_PSI_2 is set to %f\n", K_PSI_2);
+line_norm = sqrt(dx*dx + dy*dy);
+
+
+if (line_norm < 1e-6) {
+     left = 0;
+     right = 0;
+} else {
+     // 2. Perpendicular unit vector
+     vg_perp_x =  dy / line_norm;
+     vg_perp_y = -dx / line_norm;
+
+     // 3. Virtual point
+     theta_rad = theta * M_PI / 180.0;
+
+     // convert P_LOOKAHEAD (m) → cm
+     xp = x + (P * 100.0) * cos(theta_rad);
+     yp = y + (P * 100.0) * sin(theta_rad);
+
+     // 4. Vector from start to virtual point
+     vp_x = xp - x0;
+     vp_y = yp - y0;
+
+     // 5. Exact dp (cm)
+     d_p = vg_perp_x * vp_x + vg_perp_y * vp_y;
+
+     // convert cm → meters
+     d_p = d_p / 100;
+
+     // 6. Controller
+     omega = K_PSI_2 * d_p *180.0/M_PI;
+     v = 0;
+
+     // 7. Wheel speeds
+     right_1 = (int)(v + omega / 2.0);
+     left_1  = (int)(v - omega / 2.0);
+    }
+    right = (int) right_1;
+    left = (int) left_1;
+
+// Task 15. Both controls together.
+// left = left_0 + left_1;
+// right = right_0 + right_1;
 
 // // Task 17
 // pos_error = sqrt(delta_0[0]*delta_0[0] + delta_0[1]*delta_0[1]);

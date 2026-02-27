@@ -503,8 +503,21 @@ then \(p\) plays the role of a proportional gain. Increasing \(p\) improves the 
 \textbf{Remark.} In particular one must not replace \(\sin(\theta_g-\theta)\) by \(\theta_g-\theta\) unless the small-angle approximation is explicitly justified.
 
 \section*{Task 14}
+From Task~12, the stability condition for the line-following controller is
+\[
+0<K_{\Psi,2}<\frac{2L}{hRp}.
+\]
+Since $p$ appears in the denominator, a larger $p$ shrinks the stability interval and reduces the maximum admissible gain $K_{\Psi,2}$. We compare two values experimentally:
+\begin{itemize}
+\item $p=0.5$: stability bound $K_{\Psi,2}<\frac{2\cdot0.16}{1\cdot0.033\cdot0.5}\approx19.4$. The wide stability margin allows a strong corrective input without oscillations. The measured displacement error is $y_{\text{err}}=0.1$\,m.
+\item $p=1.0$: stability bound $K_{\Psi,2}<\frac{2\cdot0.16}{1\cdot0.033\cdot2}\approx4.85$. The narrow margin means the same gain $C$ pushes the system closer to the stability boundary, resulting in slower or oscillatory convergence. The measured displacement error is $y_{\text{err}}=0.5$\,m.
+\end{itemize}
 
-Solution to the task
+\begin{center}
+  \includegraphics[width = 0.7\textwidth]{task_14_angle_correction}
+\end{center}
+
+As can be seen in the  plot, $p=0.5$ provides a smoother and faster convergence to the target angle $\theta_g=90^\circ$, while $p=1.0$ leads to a noticeably slower response with a larger displacement error. Therefore, \textbf{we choose $p=0.5$} because it offers a wider stability margin, better transient behavior, and a significantly smaller steady-state displacement error.
 
 \section*{Task 15}
 

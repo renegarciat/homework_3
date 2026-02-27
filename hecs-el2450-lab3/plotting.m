@@ -221,3 +221,39 @@ hold off;
 exportgraphics(gcf, 'task_9_combined_pos_angle.pdf', 'ContentType', 'vector');
 
 %% Task 14
+%% ========================================================================
+%% Angle Correction Visualization (Task 14)
+%% ========================================================================
+
+%% Load data from CSV files (skip header row)
+data_p05 = dlmread('log_p_0_5.csv', ';', 1, 0);
+data_p1 = dlmread('log_p_1.csv', ';', 1, 0); 
+%% Trim leading zeros: keep only one zero sample before motion starts
+idx_p05 = find(data_p05(:,4) ~= 0, 1) - 1; 
+if isempty(idx_p05) || idx_p05 < 1, idx_p05 = 1; end
+data_p05 = data_p05(idx_p05:end, :);
+
+idx_p1 = find(data_p1(:,4) ~= 0, 1) - 1; 
+if isempty(idx_p1) || idx_p1 < 1, idx_p1 = 1; end
+data_p1 = data_p1(idx_p1:end, :);
+
+%% Extract and normalize time
+t_p05 = (data_p05(:,1) - data_p05(1,1)) / 1e6;
+t_p1 = (data_p1(:,1) - data_p1(1,1)) / 1e6;
+
+%% Extract orientation data and unwrap
+theta_p05 = rad2deg(unwrap(deg2rad(data_p05(:,4))));
+theta_p1 = rad2deg(unwrap(deg2rad(data_p1(:,4))));
+%% Plot Orientation vs Time
+figure('Name', 'Angle Correction - Task 14', 'Position', [150, 150, 800, 400]);
+hold on;
+plot(t_p05, theta_p05, 'b-', 'LineWidth', 1.5, 'DisplayName', 'p = 0.5');
+plot(t_p1, theta_p1, 'g-', 'LineWidth', 1.5, 'DisplayName', 'p = 1.0');
+xlabel('Time [s]');
+ylabel('\theta [deg]');
+title('Task 14: Angle Correction for different p values');
+legend('Location', 'best');
+grid on;
+hold off;
+
+exportgraphics(gcf, 'task_14_angle_correction.pdf', 'ContentType', 'vector');
