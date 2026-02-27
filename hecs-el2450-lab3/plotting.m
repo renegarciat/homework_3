@@ -257,3 +257,110 @@ grid on;
 hold off;
 
 exportgraphics(gcf, 'task_14_angle_correction.pdf', 'ContentType', 'vector');
+
+%% Task 17
+%% ========================================================================
+%% Go-To-Goal Navigation: Node 4 → Node 5 (and reverse)
+%% ========================================================================
+
+%% Load data
+data17 = dlmread('log_task_17.csv', ';', 1, 0);
+
+%% Trim leading zeros
+idx17 = find(data17(:,4) ~= 0, 1) - 1;
+if isempty(idx17) || idx17 < 1, idx17 = 1; end
+data17 = data17(idx17:end, :);
+
+%% Extract and normalize time
+t17 = (data17(:,1) - data17(1,1)) / 1e6;
+
+%% Extract position and orientation (unwrap angle)
+x17 = data17(:,2);
+y17 = data17(:,3);
+theta17 = rad2deg(unwrap(deg2rad(data17(:,4))));
+
+%% Plot
+figure('Name', 'Task 17: Node 4 → Node 5', 'Position', [100, 100, 900, 700]);
+
+% Subplot 1: X and Y Position vs Time
+subplot(2,1,1);
+hold on;
+plot(t17, x17, 'b-', 'LineWidth', 1.5, 'DisplayName', 'X Position');
+plot(t17, y17, 'r-', 'LineWidth', 1.5, 'DisplayName', 'Y Position');
+xlabel('Time [s]');
+ylabel('Position [m]');
+title('Task 17: Position vs Time (Node 4 \rightarrow Node 5)');
+legend('Location', 'best');
+grid on;
+hold off;
+
+% Subplot 2: Orientation vs Time
+subplot(2,1,2);
+hold on;
+plot(t17, theta17, 'g-', 'LineWidth', 1.5, 'DisplayName', '\theta');
+xlabel('Time [s]');
+ylabel('\theta [deg]');
+title('Task 17: Orientation vs Time (Node 4 \rightarrow Node 5)');
+legend('Location', 'best');
+grid on;
+hold off;
+
+exportgraphics(gcf, 'task_17_node4_to_node5.pdf', 'ContentType', 'vector');
+
+%% Task 18
+%% ========================================================================
+%% Plan Execution: XY Trajectory (Task 3 path on the online simulator)
+%% Path: R_6 → R_7 → R_18 → R_17 → R_16 → R_21 → R_20 → (R_21,R_20)^ω
+%% ========================================================================
+
+%% Load data
+data18 = dlmread('log_task_18.csv', ';', 1, 0);
+
+%% Remove the initial garbage rows (simulator spawn at bogus coordinates)
+% Detect the jump: first row where x differs significantly from the initial x
+x_init = data18(1,2);
+jump_idx = find(abs(data18(:,2) - x_init) > 1, 1);
+if ~isempty(jump_idx)
+    data18 = data18(jump_idx:end, :);
+end
+
+%% Extract and normalize time
+t18 = (data18(:,1) - data18(1,1)) / 1e6;
+
+%% Extract position
+x18 = data18(:,2);
+y18 = data18(:,3);
+
+%% --- Figure: XY Trajectory ---
+figure('Name', 'Task 18: Plan Execution (XY Trajectory)', 'Position', [100, 100, 700, 600]);
+hold on;
+
+% Plot trajectory line
+plot(x18, y18, 'b-', 'LineWidth', 1.5, 'DisplayName', 'Robot trajectory');
+
+% Mark start and end
+plot(x18(1), y18(1), 'go', 'MarkerSize', 12, 'MarkerFaceColor', 'g', 'DisplayName', 'Start');
+plot(x18(end), y18(end), 'rx', 'MarkerSize', 12, 'LineWidth', 2.5, 'DisplayName', 'End');
+
+% Add directional arrows along the trajectory (every ~10% of the path)
+n = length(x18);
+arrow_step = max(1, round(n / 12));
+for k = arrow_step:arrow_step:n-1
+    dx_a = x18(min(k+5, n)) - x18(k);
+    dy_a = y18(min(k+5, n)) - y18(k);
+    if abs(dx_a) > 0.001 || abs(dy_a) > 0.001
+        quiver(x18(k), y18(k), dx_a, dy_a, 0, ...
+            'MaxHeadSize', 2, 'Color', [0.2 0.2 0.8], 'LineWidth', 1.2, ...
+            'HandleVisibility', 'off');
+    end
+end
+
+xlabel('X [m]');
+ylabel('Y [m]');
+title('Task 18: Robot Trajectory in the XY-Plane');
+legend('Location', 'best');
+axis equal;
+grid on;
+hold off;
+
+exportgraphics(gcf, 'task_18_xy_trajectory.pdf', 'ContentType', 'vector');

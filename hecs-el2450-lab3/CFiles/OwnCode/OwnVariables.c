@@ -41,7 +41,7 @@ double v_g[] = {0, 0};       // Unit direction toward goal
 double d_g = 0;              // Projected distance to goal
 double theta_g = 0;          // Desired angle in radians
 // Task 13
-double P = L_TRUE * 2; // 2 times the body length
+double P = 0.5; // around 2 times the body length
 double dp =0;
 const double alpha = 0.5;
 double K_PSI_2 = alpha*(L_TRUE/(H*R_TRUE*P));

@@ -587,11 +587,40 @@ Solution to the task
 
 \section*{Task 18}
 
-Solution to the task
+We execute the plan derived in Task~3 on the online simulator by programming the sequence of waypoints corresponding to the region centers along the path
+\[
+R_6 \;\to\; R_7 \;\to\; R_{18} \;\to\; R_{17} \;\to\; R_{16} \;\to\; R_{21} \;\to\; R_{20}
+\;\to\; (R_{21},R_{20})^{\omega}.
+\]
+Each waypoint is the center $(x_c,y_c)$ of the respective $0.5\times0.5\,$m region. The hybrid automaton from Task~16 handles transitions between waypoints: the robot first rotates in place ($q_{\text{rot}}$) to align with the next waypoint, then drives in a straight line ($q_{\text{line}}$) while the line-following controller corrects lateral deviations.
+
+\begin{center}
+  \includegraphics[width = 0.7\textwidth]{task_18_xy_trajectory}
+\end{center}
+
+\textbf{Observations:}
+\begin{itemize}
+\item The trajectory consists of clearly distinguishable straight-line segments connected by sharp turns at each waypoint, confirming that the rotate-then-drive strategy from Task~4 works as intended.
+\item The robot successfully follows the planned prefix path and reaches the $R_{20}\leftrightarrow R_{21}$ cycle, satisfying the specification (visit \textsf{red} infinitely often, always followed by \textsf{blue}, no obstacles entered).
+\item Small lateral offsets are visible along the straight segments due to the finite sampling time and the discrete nature of the controller, but these remain well within the $0.5\,$m cell width, so the robot does not enter unintended regions.
+\item At each waypoint the robot dwells briefly while rotating, which introduces a slight position drift. This is acceptable as long as the drift stays inside the current region.
+\end{itemize}
 
 \section*{Task 19}
 
-Solution to the task
+During each transition between two adjacent regions $R_i$ and $R_j$, the safety property requires that the robot remains inside $R_i\cup R_j$ at all times. Whether this holds depends directly on how well the continuous controllers perform in each mode of the hybrid automaton.
+
+\paragraph{Rotation mode ($q_{\text{rot}}$).}
+While rotating in place, the robot should ideally have $v=0$ so that it does not translate. In practice, the controller from Task~5 sets $v = K_{\omega,1}d_0$, which is nonzero whenever there is a position error. If the rotation is slow (small $K_{\Psi,1}$) or the sampling time $h$ is large, the robot spends many steps turning and may drift due to this residual forward velocity. A large steady-state orientation error (as observed in Task~6) also means the robot enters the line-following mode with a heading offset, causing it to initially deviate from the intended straight path. Both effects can push the robot outside $R_i$ during the rotation phase if the drift exceeds $dx/2=0.25\,$m.
+
+\paragraph{Line-following mode ($q_{\text{line}}$).}
+The lateral tracking error $d_p$ determines how far the robot deviates from the center-to-center line connecting $R_i$ and $R_j$. From Task~12, $d_p$ converges to zero only if $0<K_{\Psi,2}<\frac{2L}{hRp}$. A gain close to the stability boundary leads to oscillatory convergence, and the transient lateral excursions may exceed the cell half-width. Furthermore, the choice of $p$ directly affects the magnitude of $d_p$: as shown in Task~14, $p=2$ produced a lateral error of $0.5\,$m, which equals the full cell width and would violate the safety property. Conversely, $p=0.5$ kept the error at $0.1\,$m, well within bounds.
+
+\paragraph{Switching thresholds.}
+The guard $\varepsilon_\theta$ for the rotation-to-line transition also matters: a loose threshold means the robot starts driving forward while still significantly misaligned, producing a large initial $d_p$. Similarly, the goal threshold $\varepsilon_g$ determines how close to the waypoint center the robot is when it begins rotating toward the next target. A large $\varepsilon_g$ means the robot starts the next rotation far from the region center, increasing the risk of drifting into a third region.
+
+\paragraph{Summary.}
+The safety property is preserved when (i) the rotation controller converges fast enough that positional drift during turning is small, (ii) the line-following controller keeps lateral deviations well below $dx/2$, and (iii) the switching thresholds $\varepsilon_\theta$ and $\varepsilon_g$ are chosen tight enough that the robot is well-aligned and well-centered at each mode switch. In our implementation, the gains $K_{\Psi,1}=L/(hR)$ and $K_{\Psi,2}=\alpha L/(hRp)$ with $p=0.5$ satisfy these requirements, as confirmed by the trajectory in Task~18 staying within the intended regions.
 
 
 
