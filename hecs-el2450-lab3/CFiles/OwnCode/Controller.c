@@ -12,176 +12,114 @@
 
     The purpose of the algorithm is first to rotate and then to move straight.
 */
-dx = xg-x0;
-dy = yg-y0;
-// Task 6
-theta_R = atan2(dy, dx)*180/M_PI; // Desired orientation of the robot in degrees.
-// Calculate angle error with wrapping to [-180, 180]
-angle_error = theta_R - theta;
-if (angle_error > 180) angle_error -= 360;
-else if (angle_error < -180) angle_error += 360;
-omega = K_PSI_1 * angle_error;
-// Convert angular speed to  left and right, given that v = 0.
-left_0 = -omega/2.0;
-right_0 = omega/2.0;
-
-// Task 8
-// calculate the velocity component vector
-v_c[0] = cos(theta*(M_PI/180.0));
-v_c[1] = sin(theta*(M_PI/180.0));
-// Calculate the error in position
-delta_0[0] = (x0-x) / 100.0; // Position error in the x direction in m.
-delta_0[1] = (y0-y) / 100.0; // Position error in the y direction in m.
-// Calculate the inner product of the velocity vector and the position error
-d_0 = v_c[0]*delta_0[0] + v_c[1]*delta_0[1]; // [m]
-// Calculate the desired translational velocity
-v = K_OMEGA_1*d_0; // [1/s or rad/s]
-v = v*180.0/M_PI; // Convert to 1°/s
-left_1 = v;
-right_1 = v;
-
-// Task 6. Rotation control only.
-// left = left_0;
-// right = right_0;
-// Task 8. Translation control only.
-// left = left_1;
-// right = right_1;
-// Task 9. Combine the controllers.
-task9_left = left_0 + left_1;
-task9_right = right_0 + right_1;
-
-// ----------------------
-// Task 11 (Go-To-Goal Part I)
-// ----------------------
-
-delta_g[0] = xg - x;
-delta_g[1] = yg - y;
-
-theta_g = atan2(dy, dx);  // radians
-
-v_g[0] = cos(theta_g);
-v_g[1] = sin(theta_g);
-
-d_g = v_g[0]*delta_g[0] + v_g[1]*delta_g[1];
-v = K_OMEGA_2 * d_g;
-v = v*180.0/M_PI; // Convert to 1°/s
-right_0 = v;
-left_0  = v;
-
-//Task 13
-// 1. Line direction
-line_norm = sqrt(dx*dx + dy*dy);
-
-
-if (line_norm < 1e-6) {
-     left = 0;
-     right = 0;
+if (target_reached == 1) {
+    left = 0;
+    right = 0;
 } else {
-     // 2. Perpendicular unit vector
-     vg_perp_x =  dy / line_norm;
-     vg_perp_y = -dx / line_norm;
+    // 1. Define the current segment boundaries
+    double current_xg = wp_x[wp_idx];
+    double current_yg = wp_y[wp_idx];
+    double current_x0 = (wp_idx == 0) ? x0 : wp_x[wp_idx - 1]; 
+    double current_y0 = (wp_idx == 0) ? y0 : wp_y[wp_idx - 1];
+    // 2. Override the global differences to use the current segment
+    dx = current_xg - current_x0;
+    dy = current_yg - current_y0;
+    // 3. Calculate Global Errors for the State Machine
+    theta_R = atan2(dy, dx)*180/M_PI; 
+    angle_error = theta_R - theta;
+    if (angle_error > 180) angle_error -= 360;
+    else if (angle_error < -180) angle_error += 360;
+    // Distance to the CURRENT waypoint target
+    double dist_to_wp = sqrt(pow(current_xg - x, 2) + pow(current_yg - y, 2)) / 100.0;
 
-     // 3. Virtual point
-     theta_rad = theta * M_PI / 180.0;
-
-     // convert P_LOOKAHEAD (m) → cm
-     xp = x + (P * 100.0) * cos(theta_rad);
-     yp = y + (P * 100.0) * sin(theta_rad);
-
-     // 4. Vector from start to virtual point
-     vp_x = xp - x0;
-     vp_y = yp - y0;
-
-     // 5. Exact dp (cm)
-     d_p = vg_perp_x * vp_x + vg_perp_y * vp_y;
-
-     // convert cm → meters
-     d_p = d_p / 100;
-
-     // 6. Controller
-     omega = K_PSI_2 * d_p *180.0/M_PI;
-     v = 0;
-
-     // 7. Wheel speeds
-     right_1 = (int)(v + omega / 2.0);
-     left_1  = (int)(v - omega / 2.0);
+    // State machine
+    if (task17_state == 0) {
+        // We are rotating, are we aligned yet?
+        if (fabs(angle_error) < ang_tol) {
+            task17_state = 1; // Switch to translation control
+            printf("Aligned with waypoint %d. Switching to translation control.\n", wp_idx);
+        }
+    } else if (task17_state == 1) {
+        // We are translating, have we reached the current waypoint?
+        if (dist_to_wp < pos_tol) {
+            if (wp_idx < wp_count - 1) {
+                // Corner reached, move to next segment
+                wp_idx++;
+                task17_state = 0;
+                printf("Reached waypoint %d. Moving to next segment.\n", wp_idx);
+            } else {
+                // Final target reached
+                target_reached = 1;
+                printf("Final target reached. Stopping robot.\n");
+            }
+        }
     }
-// ----------------------
-// Task 14 (Simulation & Pole Invariance Test)
-// ----------------------
-// 2. Set your test lookahead distance (p) in meters.
-// TODO: Run the simulation three times, changing this to 0.1, 0.5, and 2.0
-// P = 0.5; 
-// x0 = -0.37;
-// y0 = 0.23;
-// dx = xg-x0;
-// dy = yg-y0;
-// 3. Maintain an invariant pole. 
-// We choose a constant C (e.g., 2.0) so the response time stays the same.
-// invariant_pole = 0.5; 
-// K_PSI_2 = invariant_pole / P;
-// printf("The controller gain K_PSI_2 is set to %f\n", K_PSI_2);
-// line_norm = sqrt(dx*dx + dy*dy);
-
-
-// if (line_norm < 1e-6) {
-//      left = 0;
-//      right = 0;
-// } else {
-//      // 2. Perpendicular unit vector
-//      vg_perp_x =  dy / line_norm;
-//      vg_perp_y = -dx / line_norm;
-
-//      // 3. Virtual point
-//      theta_rad = theta * M_PI / 180.0;
-
-//      // convert P_LOOKAHEAD (m) → cm
-//      xp = x + (P * 100.0) * cos(theta_rad);
-//      yp = y + (P * 100.0) * sin(theta_rad);
-
-//      // 4. Vector from start to virtual point
-//      vp_x = xp - x0;
-//      vp_y = yp - y0;
-
-//      // 5. Exact dp (cm)
-//      d_p = vg_perp_x * vp_x + vg_perp_y * vp_y;
-
-//      // convert cm → meters
-//      d_p = d_p / 100;
-
-//      // 6. Controller
-//      omega = K_PSI_2 * d_p *180.0/M_PI;
-//      v = 0;
-
-//      // 7. Wheel speeds
-//      right_1 = (int)(v + omega / 2.0);
-//      left_1  = (int)(v - omega / 2.0);
-//     }
-//     right = (int) right_1;
-//     left = (int) left_1;
-
-// Task 15. Both controls together.
-task15_left = left_0 + left_1;
-task15_right = right_0 + right_1;
-
-// Task 17
-pos_error = sqrt(delta_0[0]*delta_0[0] + delta_0[1]*delta_0[1]);
-if (task17_state == 0) {
-    // Check if we are close enough to (x0, y0) and oriented towards (xg, yg)
-    // or if the rotor speed is below the minimum threshold
-    if ((pos_error < pos_tol && fabs(angle_error) < ang_tol) || 
-        (fabs(task9_left) < min_speed && fabs(task9_right) < min_speed)) {
-        task17_state = 1;
-        printf("Switching to Go-To-Goal (Task 13 & 15)\n");
+    // Actuation
+    if (target_reached == 1) {
+        left = 0;
+        right = 0;
+    } else if (task17_state == 0) {
+        // ROTATIONAL CONTROL
+        theta_R = atan2(dy, dx)*180/M_PI; // Desired orientation of the robot in degrees.
+        // Calculate angle error with wrapping to [-180, 180]
+        angle_error = theta_R - theta;
+        if (angle_error > 180) angle_error -= 360;
+        else if (angle_error < -180) angle_error += 360;
+        omega = K_PSI_1 * angle_error;
+        v_c[0] = cos(theta*(M_PI/180.0));
+        v_c[1] = sin(theta*(M_PI/180.0));
+        // Calculate the error in position
+        delta_0[0] = (current_x0-x) / 100.0; // Position error in the x direction in m.
+        delta_0[1] = (y0-y) / 100.0; // Position error in the y direction in m.
+        // Calculate the inner product of the velocity vector and the position error
+        d_0 = v_c[0]*delta_0[0] + v_c[1]*delta_0[1]; // [m]
+        // Calculate the desired translational velocity
+        v = K_OMEGA_1*d_0; // [1/s or rad/s]
+        v = v*180.0/M_PI; // Convert to 1°/s
+        left = (int)(v - omega / 2.0);
+        right = (int)(v + omega / 2.0);
+    } else {
+        // Translational control
+        // TRANSLATIONAL CONTROL
+    delta_g[0] = current_xg - x;
+    delta_g[1] = current_yg - y;
+    
+    theta_g = atan2(dy, dx);  // radians
+    
+    v_g[0] = cos(theta_g);
+    v_g[1] = sin(theta_g);
+    
+    d_g = v_g[0]*delta_g[0] + v_g[1]*delta_g[1];
+    v = K_OMEGA_2_CM * d_g;
+    v = v*180.0/M_PI; // Convert to 1°/s
+    // 1. Line direction
+    line_norm = sqrt(dx*dx + dy*dy);
+    if (line_norm < 1e-6) {
+         left = 0;
+         right = 0;
+    } else {
+         // 2. Perpendicular unit vector
+         vg_perp_x =  dy / line_norm;
+         vg_perp_y = -dx / line_norm;
+         // 3. Virtual point
+         theta_rad = theta * M_PI / 180.0;
+         // convert P_LOOKAHEAD (m) → cm
+         xp = x + (P * 100.0) * cos(theta_rad);
+         yp = y + (P * 100.0) * sin(theta_rad);
+         // 4. Vector from start to virtual point
+         vp_x = xp - current_x0;
+         vp_y = yp - current_y0;
+         // 5. Exact dp (cm)
+         d_p = vg_perp_x * vp_x + vg_perp_y * vp_y;
+         // convert cm → meters
+         d_p = d_p / 100;
+         // 6. Controller
+         omega = K_PSI_2 * d_p *180.0/M_PI;
+         // 7. Wheel speeds
+        left = (int)(v - omega / 2.0);
+        right = (int)(v + omega / 2.0);
+        }
     }
-}
-
-if (task17_state == 0) {
-    left = (int) task9_left;
-    right = (int) task9_right;
-} else {
-    left = (int) task15_left;
-    right = (int) task15_right;
 }
 
 // 5. Motor Saturation (Clamping)

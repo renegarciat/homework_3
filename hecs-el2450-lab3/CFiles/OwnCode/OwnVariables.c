@@ -30,11 +30,12 @@ double vp_x = 0;
 double vp_y = 0;
 double d_p = 0;
 const double R_CM = 100 * R_TRUE;  // Convert radius to cm
+double float_tol = 1.0; 
 
 // Stability condition: 0 < H*R*K < 2
 // Choose middle of interval: HRK = 1
-const double K_OMEGA_2 = 1/(H * R_CM);
-printf("The controller gain K_OMEGA_2 is set to %f\n", K_OMEGA_2);
+const double K_OMEGA_2_CM = 1/(H * R_CM);
+printf("The controller gain K_OMEGA_2 is set to %f\n", K_OMEGA_2_CM);
 // Variables for Task 11
 double delta_g[] = {0, 0};   // Goal position error in cm
 double v_g[] = {0, 0};       // Unit direction toward goal
@@ -60,3 +61,8 @@ double task9_right = 0;
 double task15_left = 0;
 double task15_right = 0;
 double pos_error = 0;
+double wp_x[2] = {0, 0};    // Stack to hold up to 2 target X coordinates
+double wp_y[2] = {0, 0};    // Stack to hold up to 2 target Y coordinates
+int wp_idx = 0;             // Current waypoint we are aiming for
+int wp_count = 0;           // Total waypoints in the current plan
+int target_reached = 1;     // Flag: 1 = stopped/idle, 0 = navigating
