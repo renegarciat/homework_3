@@ -36,16 +36,18 @@
   \and
   Jenis Jain \\ 20030424-T490 \\ jjjain@kth.se
   \and
-  First name5 Last name5 \\ person number \\ email
+  David Ring \\ 20000111-2374 \\ dring@kth.se
   \and
   }
 %\date{2010-10-10}             % If you want to set the date yourself.
 
 \maketitle                     % Generates the title
 
+
+
 \section*{Task 1: Compute $u_r$ and $u_l$ from $(v,\omega)$}
 
-The robot inputs are defined as :
+The robot inputs are defined as:
 \begin{equation}
 v = \frac{u_r + u_l}{2}, 
 \qquad 
@@ -78,9 +80,9 @@ u_l = v - \frac{\omega}{2}.
 Therefore, the wheel speeds corresponding to $(v,\omega)$ are:
 \begin{equation}
 \boxed{
-u_r = v + \frac{\omega}{2} \quad [1^\circ/s],
+u_r = v + \frac{\omega}{2},
 \qquad
-u_l = v - \frac{\omega}{2} \quad [1^\circ/s]
+u_l = v - \frac{\omega}{2}
 }
 \label{eq:wheel_from_vomega}
 \end{equation}
@@ -164,7 +166,7 @@ u_l = v - \frac{\omega}{2} \quad [1^\circ/s]
 
 \textbf{Workspace:} $[-1.5,1.5]\times[-1.5,1.5]$ (meters). A discretization with $K=36$ gives a $6\times 6$ grid.
 
- regions are numbered in a \emph{column-wise snake} pattern:
+The regions are numbered in a \emph{column-wise snake} pattern:
 start at the bottom-left with $R_1$, go \emph{up} in the first column, then \emph{down} in the next column, and so on.
 Thus, the $6\times 6$ numbering is:
 \[
@@ -187,7 +189,10 @@ The propositions are specified by the following positions (meters):
 \begin{itemize}
 \item \textsf{obstacle} centers (spheres of radius $0.05$ m) at:
 \[
-(-0.75,0.75),\ (0.25,1.25),\ (0.75,0.75),\ (0.25,-0.25),\ (0.75,-0.75),\ (-0.75,-0.75),\ (-0.75,-0.25),\ (1.25,1.25),\ (-1.25,-0.25).
+\begin{aligned}
+(-0.75,0.75),\ (0.25,1.25),\ (0.75,0.75),\ (0.25,-0.25),\ (0.75,-0.75),\ (-0.75,-0.75),\\
+(-0.75,-0.25),\ (1.25,1.25),\ (-1.25,-0.25).
+\end{aligned}
 \]
 \item \textsf{red} holds at:
 \[
@@ -269,8 +274,7 @@ Then, repeat the 2-cycle $(R_{20},R_{21})$ forever:
 
 \section*{Task 4}
 
-The hybrid strategy prevents entering unintended regions by separating the motion into two
-simple phases. First, the robot uses a rotation mode with (approximately) zero forward
+The hybrid strategy prevents entering unintended regions by separating the motion into two simple phases. First, the robot uses a rotation mode with (approximately) zero forward
 speed, i.e., $v \approx 0$, so it turns in place to align its heading with the straight line
 connecting the center of the current region to the center of the target (neighbor) region.
 Because the robot does not translate during this phase, it stays close to the current
@@ -290,7 +294,7 @@ During the rotation mode, the controller is
 \end{equation}
 The robot yaw dynamics satisfy
 \begin{equation}
-\dot{\theta}(t) = \frac{R}{L}\,\omega(t) \quad [1^\circ/s].
+\dot{\theta}(t) = \frac{R}{L}\,\omega(t).
 \label{eq:yaw_dyn}
 \end{equation}
 Using forward Euler discretization with sampling time $h$,
@@ -314,7 +318,7 @@ For asymptotic stability of the discrete-time error dynamics, we require
 \label{eq:stability_range}
 \end{equation}
 A practical choice is to pick $K_{\Psi,1}$ well inside this interval (e.g., $K_{\Psi,1}=\alpha\frac{L}{hR}$ with $\alpha\in(0,1)$) to avoid oscillations and actuator saturation.
-% TODO: Explain more about the choice of $K_{\Psi,1}$. Could explain how a deadbeat is technically possible but 0.5 is a more robust choice.
+
 
 \section*{Task 6}
 First we define the proportional constant value. Given eq. \eqref{eq:stability_range}, we could 
@@ -361,9 +365,6 @@ Asymptotic stability requires $\left|1-hR K_{\omega,1}\right|<1$, hence
 \[
 \boxed{\,0<K_{\omega,1}<\dfrac{2}{hR}\, }.
 \]
-
-
-
 \section*{Task 8}
 Similarly to Task 6, we select $K_{\omega,1}$ in the middle of the stability interval:
 \begin{equation}
@@ -386,8 +387,7 @@ Starting position: $(x_0,y_0) = (0,0),\, \theta=0^\circ$ Target: $(x_g,y_g) = (-
 \begin{center}
   \includegraphics[width = 0.8\textwidth]{task_8_ss-err_3}
 \end{center}
-As we can see, the robot moves only in the $x$ direction, as this is the direction it is facing initially. The controller successfully reduces the X error to zero, but the Y error remains, therefore, \textbf{We conclude that it is not possible to ensure that [x[k], y[k]]T stays exactly
-at [x0, y0]T for any initial orientation.}
+As we can see, the robot moves only in the $x$ direction, as this is the direction it is facing initially. The controller successfully reduces the X error to zero, but the Y error remains.
 \end{itemize}
 \section*{Task 9}
 To test both controllers together, we simulate an scenario where we have error in the position and angle, and enable both controllers.
@@ -397,8 +397,7 @@ To test both controllers together, we simulate an scenario where we have error i
   \includegraphics[width = 0.7\textwidth]{task_9_combined_pos_angle}
 \end{center}
 \end{itemize}
-As we can see, the angle error is completely corrected first, thus blocking the posiblitiy of correcting the position error. \textbf{In conclusion, there is a cross-coupling effect between the rotational and translational dynamics.}
-
+As we can see, the angle error is corrected first, and then blocking the posiblitiy of correcting the position error. This can become a race condition.
 \section*{Task 10}
 
 Assume $\theta[k]=\theta_g$, hence $v_g=\begin{bmatrix}\cos\theta_g & \sin\theta_g\end{bmatrix}^\top$ is constant and $v_g^\top v_g=1$.
@@ -446,7 +445,7 @@ In Fig.~\ref{fig:Task11.1} we can see that the robot travels in a straight line 
 
 \begin{figure} [h!]
     \centering
-    \includegraphics[width=0.7\linewidth]{result_from_task11_simulation.png}
+    \includegraphics[width=0.5\linewidth]{result_from_task11_simulation.png}
     \caption{Result from discrete straight line controller}
     \label{fig:Task11.1}
 \end{figure}
@@ -492,16 +491,63 @@ closed-loop behavior consistent when the sampling time $h$ changes.
 
 
 \section*{Task 13}
+
 If we model the corrective input using the (nonlinear) sine term, for instance
 \[
 d_p \approx p\,\sin(\theta_g-\theta),
 \]
-then \(p\) plays the role of a proportional gain. Increasing \(p\) improves the tracking accuracy of \(\theta\) to the goal \(\theta_g\). However, if \(p\) is chosen too large the closed-loop trajectory typically oscillates around \(\theta_g\) and cannot settle at a point. Intuitively this happens because the region of attraction (the set of initial conditions that converge to \(\theta_g\)) shrinks as \(p\) increases, so overly large gains reduce stability margins and promote sustained oscillations.
+then \(p\) plays the role of a proportional gain. Increasing \(p\) improves the tracking accuracy of \(\theta\) to the goal \(\theta_g\). However, if \(p\) is chosen too large the closed-loop trajectory typicallyoscillates around \(\theta_g\) and cannot settle at a point. Intuitively this happens because the region of attraction (the set of initial conditions that converge to \(\theta_g\)) shrinks as \(p\) increases, so overly large gains reduce stability margins and promote sustained oscillations.
+
+
+The angular controller
+
+\begin{equation}    
+\omega[k] = K_{\Psi,2} d_p[k]
+\label{dp}
+\end{equation}
+
+\noindent was implemented using the exact nonlinear definition of $d_p$ from \eqref{dp}, while the translational velocity was set to $v=0$ to isolate the rotational dynamics.
+
+The lateral deviation is defined as
+\[
+d_p[k] = v_{g,\perp}^T v_p[k],
+\]
+where
+\[
+v_p[k] =
+\begin{bmatrix}
+x[k] + p \cos\theta[k] - x_0 \\
+y[k] + p \sin\theta[k] - y_0
+\end{bmatrix}.
+\]
+
+Simulation results show that the robot rotates in place and $d_p[k]$ converges asymptotically to zero without steady-state error. The decay is approximately exponential, consistent with the discrete-time dynamics derived in Task 12:
+\[
+d_p[k+1]
+=
+\left(1 - \frac{hR}{L} K_{\Psi,2} p \right) d_p[k].
+\]
+
+For
+\[
+K_{\Psi,2} = \frac{\alpha L}{h R p}, \quad 0 < \alpha < 1,
+\]
+the closed-loop pole becomes $1-\alpha$, which lies inside the unit circle. Hence, the equilibrium $d_p=0$ is asymptotically stable.
+
+The simulation confirms the theoretical stability analysis.
+
+In fig \ref{fig:theta_over_time_task_13} we can see that the angle slowly goes from 0 degrees to 90 degrees when the goal point changes. in this simulation the new goal was 90 degrees above the robot with means that it reached the goal in the simulation.
+
+\begin{figure} [h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{task13theta.png}
+    \caption{theta over time task 13}
+    \label{fig:theta_over_time_task_13}
+\end{figure}
 
 \smallskip
 
 \textbf{Remark.} In particular one must not replace \(\sin(\theta_g-\theta)\) by \(\theta_g-\theta\) unless the small-angle approximation is explicitly justified.
-
 \section*{Task 14}
 From Task~12, the stability condition for the line-following controller is
 \[
@@ -521,7 +567,23 @@ As can be seen in the  plot, $p=0.5$ provides a smoother and faster convergence 
 
 \section*{Task 15}
 
-Solution to the task
+When both controllers are enabled, the longitudinal
+error $d_g$ and the lateral error $d_p$ converge
+simultaneously to zero. In contrast, when only the
+translational controller is active, $d_g$ decreases while
+$d_p$ remains nonzero. When only the angular controller
+is enabled, $d_p$ converges but no progress toward the
+goal is achieved. The combined controller therefore
+achieves stable line-following behaviour.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{image.png}
+    \caption{}
+    \label{fig:placeholder}
+\end{figure}
+
+
 
 \section*{Task 16 : Hybrid automaton}
 
@@ -582,8 +644,23 @@ R(q_{\text{line}},q_{\text{rot}}):\ X^+=X.
 
 
 \section*{Task 17}
+To implement the hybrid automaton we code conditions to make the robot firstly rotate (state $q_{rot}$) and then move forward in a line (state $q_{line}$). In Figure \ref{fig:task17} is shown a simulation (continuous states) where node 5 is the start and node 4 is the goal, and in Figure \ref{fig:task17_2} is shown the corresponding discrete states.
 
-Solution to the task
+\begin{figure}[h!]
+\centering
+  \includegraphics[width = 0.7\textwidth]{task_17_node4_to_node5.pdf}
+  \caption{Plot of continuous states where robot starts at node 5 and given node 4 as goal.}
+\label{fig:task17}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+  \includegraphics[width = 0.7\textwidth]{task17statesplot.png}
+  \caption{Plot of discrete states where robot starts at node 5 and given node 4 as goal.}
+\label{fig:task17_2}
+\end{figure}
+
+
 
 \section*{Task 18}
 
@@ -594,9 +671,12 @@ R_6 \;\to\; R_7 \;\to\; R_{18} \;\to\; R_{17} \;\to\; R_{16} \;\to\; R_{21} \;\t
 \]
 Each waypoint is the center $(x_c,y_c)$ of the respective $0.5\times0.5\,$m region. The hybrid automaton from Task~16 handles transitions between waypoints: the robot first rotates in place ($q_{\text{rot}}$) to align with the next waypoint, then drives in a straight line ($q_{\text{line}}$) while the line-following controller corrects lateral deviations.
 
-\begin{center}
+\begin{figure}
+\centering
   \includegraphics[width = 0.7\textwidth]{task_18_xy_trajectory}
-\end{center}
+  \caption{Trajectory of continuous state.}
+  \label{task18}
+\end{figure}
 
 \textbf{Observations:}
 \begin{itemize}
@@ -606,21 +686,8 @@ Each waypoint is the center $(x_c,y_c)$ of the respective $0.5\times0.5\,$m regi
 \item At each waypoint the robot dwells briefly while rotating, which introduces a slight position drift. This is acceptable as long as the drift stays inside the current region.
 \end{itemize}
 
-\section*{Task 19}
-
-During each transition between two adjacent regions $R_i$ and $R_j$, the safety property requires that the robot remains inside $R_i\cup R_j$ at all times. Whether this holds depends directly on how well the continuous controllers perform in each mode of the hybrid automaton.
-
-\paragraph{Rotation mode ($q_{\text{rot}}$).}
-While rotating in place, the robot should ideally have $v=0$ so that it does not translate. In practice, the controller from Task~5 sets $v = K_{\omega,1}d_0$, which is nonzero whenever there is a position error. If the rotation is slow (small $K_{\Psi,1}$) or the sampling time $h$ is large, the robot spends many steps turning and may drift due to this residual forward velocity. A large steady-state orientation error (as observed in Task~6) also means the robot enters the line-following mode with a heading offset, causing it to initially deviate from the intended straight path. Both effects can push the robot outside $R_i$ during the rotation phase if the drift exceeds $dx/2=0.25\,$m.
-
-\paragraph{Line-following mode ($q_{\text{line}}$).}
-The lateral tracking error $d_p$ determines how far the robot deviates from the center-to-center line connecting $R_i$ and $R_j$. From Task~12, $d_p$ converges to zero only if $0<K_{\Psi,2}<\frac{2L}{hRp}$. A gain close to the stability boundary leads to oscillatory convergence, and the transient lateral excursions may exceed the cell half-width. Furthermore, the choice of $p$ directly affects the magnitude of $d_p$: as shown in Task~14, $p=2$ produced a lateral error of $0.5\,$m, which equals the full cell width and would violate the safety property. Conversely, $p=0.5$ kept the error at $0.1\,$m, well within bounds.
-
-\paragraph{Switching thresholds.}
-The guard $\varepsilon_\theta$ for the rotation-to-line transition also matters: a loose threshold means the robot starts driving forward while still significantly misaligned, producing a large initial $d_p$. Similarly, the goal threshold $\varepsilon_g$ determines how close to the waypoint center the robot is when it begins rotating toward the next target. A large $\varepsilon_g$ means the robot starts the next rotation far from the region center, increasing the risk of drifting into a third region.
-
-\paragraph{Summary.}
-The safety property is preserved when (i) the rotation controller converges fast enough that positional drift during turning is small, (ii) the line-following controller keeps lateral deviations well below $dx/2$, and (iii) the switching thresholds $\varepsilon_\theta$ and $\varepsilon_g$ are chosen tight enough that the robot is well-aligned and well-centered at each mode switch. In our implementation, the gains $K_{\Psi,1}=L/(hR)$ and $K_{\Psi,2}=\alpha L/(hRp)$ with $p=0.5$ satisfy these requirements, as confirmed by the trajectory in Task~18 staying within the intended regions.
+\section*{Task 19: Safety Property Analysis}
+To safely transition between regions $R_i$ and $R_j$, the robot must remain inside their union by minimizing drift. During rotation, slow convergence and residual forward velocity can push the robot beyond the 0.25 m safety limit. During line-following, the lookahead distance ($p$) dictates the lateral error ($d_p$). Safety therefore relies on fast rotation convergence, tight switching thresholds ($\varepsilon_\theta$ and $\varepsilon_g$) to ensure proper alignment, and correctly tuned gains. Implementing $K_{\Psi,1}$, $K_{\Psi,2}$, and $p=0.5$ successfully restricts lateral deviations below 0.25 m, according to the simulations.
 
 
 
